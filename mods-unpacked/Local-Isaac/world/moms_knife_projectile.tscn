@@ -1,0 +1,21 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://projectiles/player_projectile.tscn" type="PackedScene" id=1]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/items/moms_knife/knife_texture.tres" type="Texture" id=2]
+[ext_resource path="res://mods-unpacked/Local-Isaac/world/moms_knife_projectile.gd" type="Script" id=3]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2(42, 12)
+
+[node name="MomsKnifeProjectile" instance=ExtResource( 1 )]
+script = ExtResource( 3 )
+
+[node name="Sprite" parent="." index="0"]
+texture = ExtResource( 2 )
+scale = Vector2(0.9, 0.9)
+rotation = 1.5707963
+
+[node name="Collision" parent="Hitbox" index="0"]
+shape = SubResource( 1 )
+
+[editable path="Hitbox"]

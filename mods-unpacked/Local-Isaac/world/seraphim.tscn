@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=2]
+[ext_resource path="res://mods-unpacked/Local-Isaac/world/baby.tscn" type="PackedScene" id=1]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/items/seraphim/icon.png" type="Texture" id=2]
+[node name="Seraphim" instance=ExtResource( 1 )]
+baby_kind = 4
+winged = true
+wing_split_ratio = 0.30
+[node name="Sprite" parent="Animation" index="0"]
+texture = ExtResource( 2 )

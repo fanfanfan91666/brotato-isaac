@@ -1,0 +1,35 @@
+[gd_resource type="Resource" load_steps=10 format=2]
+[ext_resource path="res://mods-unpacked/Local-Isaac/effects/weapon_data.gd" type="Script" id=1]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/weapons/boomerang/icon.png" type="Texture" id=2]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/weapons/boomerang/weapon.tscn" type="PackedScene" id=3]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/weapons/boomerang/3/stats.tres" type="Resource" id=4]
+[ext_resource path="res://items/sets/precise/precise_set_data.tres" type="Resource" id=5]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/weapons/boomerang/4/data.tres" type="Resource" id=6]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/sets/zelda_set.tres" type="Resource" id=7]
+[ext_resource path="res://mods-unpacked/Local-Isaac/effects/description_null_effect.gd" type="Script" id=8]
+
+[sub_resource type="Resource" id=1]
+script = ExtResource( 8 )
+key = "effect_local_isaac_boomerang_petrify"
+text_key = "EFFECT_LOCAL_ISAAC_BOOMERANG_PETRIFY"
+value = 15
+custom_key = "local_isaac_boomerang_petrify_tier_3"
+effect_sign = 0
+
+[resource]
+script = ExtResource( 1 )
+my_id = "weapon_local_isaac_boomerang_3"
+unlocked_by_default = true
+can_be_looted = true
+icon = ExtResource( 2 )
+name = "WEAPON_LOCAL_ISAAC_BOOMERANG"
+tier = 2
+value = 61
+effects = [ SubResource( 1 ) ]
+weapon_id = "weapon_local_isaac_boomerang"
+type = 1
+sets = [ ExtResource( 5 ), ExtResource( 7 ) ]
+scene = ExtResource( 3 )
+stats = ExtResource( 4 )
+add_to_chars_as_starting = [ ]
+upgrades_into = ExtResource( 6 )

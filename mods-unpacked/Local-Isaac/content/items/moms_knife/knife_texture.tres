@@ -1,0 +1,6 @@
+[gd_resource type="ImageTexture" load_steps=2 format=2]
+
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/items/moms_knife/knife_texture.gd" type="Script" id=1]
+
+[resource]
+script = ExtResource( 1 )

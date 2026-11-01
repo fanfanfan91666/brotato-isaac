@@ -1,0 +1,41 @@
+[gd_resource type="Resource" load_steps=9 format=2]
+
+[ext_resource path="res://mods-unpacked/Local-Isaac/effects/description_item_data.gd" type="Script" id=1]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/items/libra/icon.png" type="Texture" id=2]
+[ext_resource path="res://items/global/effect.gd" type="Script" id=3]
+[ext_resource path="res://mods-unpacked/Local-Isaac/effects/description_null_effect.gd" type="Script" id=4]
+
+[sub_resource type="Resource" id=1]
+script = ExtResource( 3 )
+key = "stat_percent_damage"
+value = 6
+
+[sub_resource type="Resource" id=2]
+script = ExtResource( 3 )
+key = "stat_attack_speed"
+value = 6
+
+[sub_resource type="Resource" id=3]
+script = ExtResource( 3 )
+key = "stat_range"
+value = 60
+
+[sub_resource type="Resource" id=4]
+script = ExtResource( 4 )
+key = "effect_local_isaac_libra"
+text_key = "EFFECT_LOCAL_ISAAC_LIBRA"
+value = 0
+effect_sign = 2
+
+[resource]
+script = ExtResource( 1 )
+my_id = "item_local_isaac_libra"
+unlocked_by_default = true
+can_be_looted = true
+icon = ExtResource( 2 )
+name = "ITEM_LOCAL_ISAAC_LIBRA"
+tier = 1
+value = 35
+effects = [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ), SubResource( 4 ) ]
+max_nb = 1
+tags = [ "stat_percent_damage", "stat_attack_speed", "stat_range" ]

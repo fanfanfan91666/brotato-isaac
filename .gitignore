@@ -1,0 +1,22 @@
+# Build output and local development files
+/dist/
+/.godot/
+/.vscode/
+/.idea/
+__pycache__/
+*.pyc
+*.log
+*.tmp
+*.zip
+*.pck
+*.exe
+*.dll
+*.bak
+.env
+.env.*
+
+# Keep only runtime textures explicitly required by the mod.
+/.import/*
+!/.import/*.stex
+
+# PNG import mappings beside source images are required and are tracked.

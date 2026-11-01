@@ -1,0 +1,45 @@
+[gd_resource type="Resource" load_steps=8 format=2]
+
+[ext_resource path="res://items/sets/set_data.gd" type="Script" id=1]
+[ext_resource path="res://items/global/effect.gd" type="Script" id=2]
+
+[sub_resource type="Resource" id=1]
+script = ExtResource( 2 )
+key = "local_isaac_rocks"
+text_key = "EFFECT_LOCAL_ISAAC_ROCKS"
+value = 1
+effect_sign = 0
+
+[sub_resource type="Resource" id=2]
+script = ExtResource( 2 )
+key = "local_isaac_rocks"
+text_key = "EFFECT_LOCAL_ISAAC_ROCKS"
+value = 2
+effect_sign = 0
+
+[sub_resource type="Resource" id=3]
+script = ExtResource( 2 )
+key = "local_isaac_rocks"
+text_key = "EFFECT_LOCAL_ISAAC_ROCKS"
+value = 3
+effect_sign = 0
+
+[sub_resource type="Resource" id=4]
+script = ExtResource( 2 )
+key = "local_isaac_rocks"
+text_key = "EFFECT_LOCAL_ISAAC_ROCKS"
+value = 4
+effect_sign = 0
+
+[sub_resource type="Resource" id=5]
+script = ExtResource( 2 )
+key = "local_isaac_rocks"
+text_key = "EFFECT_LOCAL_ISAAC_ROCKS"
+value = 5
+effect_sign = 0
+
+[resource]
+script = ExtResource( 1 )
+my_id = "set_local_isaac_mining"
+name = "WEAPON_CLASS_LOCAL_ISAAC_MINING"
+set_bonuses = [ [ SubResource( 1 ) ], [ SubResource( 2 ) ], [ SubResource( 3 ) ], [ SubResource( 4 ) ], [ SubResource( 5 ) ] ]

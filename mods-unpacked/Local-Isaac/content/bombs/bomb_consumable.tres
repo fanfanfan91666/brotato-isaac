@@ -1,0 +1,25 @@
+[gd_resource type="Resource" load_steps=6 format=2]
+
+[ext_resource path="res://items/consumables/consumable_data.gd" type="Script" id=1]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/bombs/bomb.png" type="Texture" id=2]
+[ext_resource path="res://items/global/effect.gd" type="Script" id=3]
+[ext_resource path="res://items/consumables/item_box/item_box_pickup.wav" type="AudioStream" id=4]
+
+[sub_resource type="Resource" id=1]
+script = ExtResource( 3 )
+key = "stat_local_isaac_bombs"
+value = 1
+
+[resource]
+script = ExtResource( 1 )
+my_id = "consumable_local_isaac_bomb"
+unlocked_by_default = true
+can_be_looted = true
+icon = ExtResource( 2 )
+name = "CONSUMABLE_LOCAL_ISAAC_BOMB"
+tier = 0
+value = 1
+effects = [ SubResource( 1 ) ]
+max_nb = -1
+to_be_processed_at_end_of_wave = false
+pickup_sounds = [ ExtResource( 4 ) ]

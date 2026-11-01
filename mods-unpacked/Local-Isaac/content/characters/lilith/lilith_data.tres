@@ -1,0 +1,56 @@
+[gd_resource type="Resource" load_steps=12 format=2]
+
+[ext_resource path="res://items/characters/character_data.gd" type="Script" id=1]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/characters/lilith/lilith_portrait.tres" type="Texture" id=2]
+[ext_resource path="res://items/characters/beast_master/beast_master_effect_2.tres" type="Resource" id=3]
+[ext_resource path="res://items/characters/beast_master/beast_master_effect_6.tres" type="Resource" id=4]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/items/bobs_brain/bobs_brain_data.tres" type="Resource" id=5]
+[ext_resource path="res://items/global/effect.gd" type="Script" id=6]
+[ext_resource path="res://effects/weapons/null_effect.gd" type="Script" id=7]
+
+[sub_resource type="Resource" id=1]
+script = ExtResource( 6 )
+key = "item_local_isaac_incubus"
+text_key = "[EMPTY]"
+value = 1
+custom_key = "starting_item"
+storage_method = 1
+effect_sign = 0
+
+[sub_resource type="Resource" id=2]
+script = ExtResource( 6 )
+key = "item_local_isaac_best_friends_forever"
+text_key = "[EMPTY]"
+value = 1
+custom_key = "starting_item"
+storage_method = 1
+effect_sign = 0
+
+[sub_resource type="Resource" id=3]
+script = ExtResource( 7 )
+key = "effect_local_lilith_starting_pets"
+value = 1
+effect_sign = 0
+
+[sub_resource type="Resource" id=4]
+script = ExtResource( 7 )
+key = "effect_local_lilith_choose_pet"
+value = 1
+effect_sign = 0
+
+[resource]
+script = ExtResource( 1 )
+my_id = "character_local_lilith"
+unlocked_by_default = true
+can_be_looted = true
+icon = ExtResource( 2 )
+name = "CHARACTER_LOCAL_LILITH"
+tier = 0
+value = 1
+effects = [ ExtResource( 3 ), ExtResource( 4 ), SubResource( 1 ), SubResource( 2 ), SubResource( 3 ), SubResource( 4 ) ]
+max_nb = -1
+item_appearances = [  ]
+tags = [ "pet" ]
+wanted_tags = [ "pet" ]
+starting_weapons = [  ]
+starting_items = [ ExtResource( 5 ) ]

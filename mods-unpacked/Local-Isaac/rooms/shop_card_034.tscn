@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://ui/menus/shop/shop_item.tscn" type="PackedScene" id=1]
+[ext_resource path="res://mods-unpacked/Local-Isaac/rooms/shop_card_034.gd" type="Script" id=2]
+
+[node name="RoomShopItem" instance=ExtResource( 1 )]
+script = ExtResource( 2 )

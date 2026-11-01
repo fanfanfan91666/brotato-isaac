@@ -1,0 +1,25 @@
+[gd_resource type="Resource" load_steps=6 format=2]
+[ext_resource path="res://mods-unpacked/Local-Isaac/effects/description_item_data.gd" type="Script" id=1]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/items/ghost_baby/icon.png" type="Texture" id=2]
+[ext_resource path="res://mods-unpacked/Local-Isaac/effects/description_pet_effect.gd" type="Script" id=3]
+[ext_resource path="res://mods-unpacked/Local-Isaac/world/ghost_baby.tscn" type="PackedScene" id=4]
+[sub_resource type="Resource" id=1]
+script = ExtResource( 3 )
+key = "effect_local_isaac_ghost_baby"
+text_key = "EFFECT_LOCAL_ISAAC_GHOST_BABY"
+value = 1
+effect_sign = 0
+scene = ExtResource( 4 )
+[resource]
+script = ExtResource( 1 )
+my_id = "item_local_isaac_ghost_baby"
+unlocked_by_default = true
+can_be_looted = true
+icon = ExtResource( 2 )
+name = "ITEM_LOCAL_ISAAC_GHOST_BABY"
+tier = 0
+value = 25
+effects = [ SubResource( 1 ) ]
+tracking_text = "DAMAGE_DEALT"
+max_nb = 1
+tags = [ "pet", "stat_ranged_damage" ]

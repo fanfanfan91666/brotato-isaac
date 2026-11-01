@@ -1,0 +1,155 @@
+[gd_resource type="Resource" load_steps=110 format=2]
+
+[ext_resource path="res://mods-unpacked/Yoko-NewContentLoader/NewContent.gd" type="Script" id=1]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/characters/isaac/isaac_data.tres" type="Resource" id=2]
+[ext_resource path="res://mods-unpacked/Local-Isaac/translations/isaac.en.tres" type="Translation" id=3]
+[ext_resource path="res://mods-unpacked/Local-Isaac/translations/isaac.zh.tres" type="Translation" id=4]
+[ext_resource path="res://mods-unpacked/Local-Isaac/translations/isaac.zh_TW.tres" type="Translation" id=5]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/items/d6/d6_data.tres" type="Resource" id=6]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/weapons/tear/tear_data.tres" type="Resource" id=7]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/weapons/tear/2/tear_2_data.tres" type="Resource" id=8]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/weapons/tear/3/tear_3_data.tres" type="Resource" id=9]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/weapons/tear/4/tear_4_data.tres" type="Resource" id=10]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/items/wire_coat_hanger/wire_coat_hanger_data.tres" type="Resource" id=11]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/items/trumpet/trumpet_data.tres" type="Resource" id=12]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/items/lucky_rabbit_foot/lucky_rabbit_foot_data.tres" type="Resource" id=13]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/items/cupids_arrow/cupids_arrow_data.tres" type="Resource" id=14]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/items/belt/belt_data.tres" type="Resource" id=15]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/items/holy_wafer/holy_wafer_data.tres" type="Resource" id=16]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/sets/tears_set.tres" type="Resource" id=17]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/sets/ranged_set.tres" type="Resource" id=18]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/bombs/bomb_consumable.tres" type="Resource" id=19]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/bombs/bomb_stat.tres" type="Resource" id=20]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/items/rock/rock_data.tres" type="Resource" id=21]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/items/mr_bomb/mr_bomb_data.tres" type="Resource" id=22]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/items/bomb_bogo/bomb_bogo_data.tres" type="Resource" id=23]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/items/moms_knife/moms_knife_data.tres" type="Resource" id=24]
+
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/items/rock_bottom/rock_bottom_data.tres" type="Resource" id=25]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/items/light_crown/light_crown_data.tres" type="Resource" id=26]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/items/money_equals_power/money_equals_power_data.tres" type="Resource" id=27]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/items/soy_milk/soy_milk_data.tres" type="Resource" id=28]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/items/double_vision/double_vision_data.tres" type="Resource" id=29]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/items/bobs_brain/bobs_brain_data.tres" type="Resource" id=30]
+
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/items/eight_inch_nails/eight_inch_nails_data.tres" type="Resource" id=31]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/items/ipecac/ipecac_data.tres" type="Resource" id=32]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/items/tough_love/tough_love_data.tres" type="Resource" id=33]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/items/polyphemus/polyphemus_data.tres" type="Resource" id=34]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/items/milk/milk_data.tres" type="Resource" id=35]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/items/snack/snack_data.tres" type="Resource" id=36]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/items/brother_bobby/brother_bobby_data.tres" type="Resource" id=37]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/items/sister_maggy/sister_maggy_data.tres" type="Resource" id=38]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/items/ghost_baby/ghost_baby_data.tres" type="Resource" id=39]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/items/rainbow_baby/rainbow_baby_data.tres" type="Resource" id=40]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/items/incubus/incubus_data.tres" type="Resource" id=41]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/items/seraphim/seraphim_data.tres" type="Resource" id=42]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/items/succubus/succubus_data.tres" type="Resource" id=43]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/items/little_steven/little_steven_data.tres" type="Resource" id=44]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/items/demon_baby/demon_baby_data.tres" type="Resource" id=45]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/items/best_friends_forever/best_friends_forever_data.tres" type="Resource" id=46]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/characters/lilith/lilith_data.tres" type="Resource" id=47]
+[ext_resource path="res://mods-unpacked/Local-Isaac/effects/description_null_effect.gd" type="Script" id=48]
+[ext_resource path="res://mods-unpacked/Local-Isaac/effects/description_pet_effect.gd" type="Script" id=49]
+[ext_resource path="res://mods-unpacked/Local-Isaac/effects/description_stat_effect.gd" type="Script" id=50]
+
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/items/taurus/taurus_data.tres" type="Resource" id=51]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/items/aries/aries_data.tres" type="Resource" id=52]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/items/cancer/cancer_data.tres" type="Resource" id=53]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/items/leo/leo_data.tres" type="Resource" id=54]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/items/virgo/virgo_data.tres" type="Resource" id=55]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/items/libra/libra_data.tres" type="Resource" id=56]
+
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/items/scorpio/scorpio_data.tres" type="Resource" id=57]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/items/sagittarius/sagittarius_data.tres" type="Resource" id=58]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/items/capricorn/capricorn_data.tres" type="Resource" id=59]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/items/pisces/pisces_data.tres" type="Resource" id=60]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/items/aquarius/aquarius_data.tres" type="Resource" id=61]
+
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/items/gemini/gemini_data.tres" type="Resource" id=62]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/items/dressed_boy/dressed_boy_data.tres" type="Resource" id=63]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/items/raw_meat/raw_meat_data.tres" type="Resource" id=64]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/items/moms_eyeshadow/moms_eyeshadow_data.tres" type="Resource" id=65]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/items/lost_contact/lost_contact_data.tres" type="Resource" id=66]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/items/magic_scab/magic_scab_data.tres" type="Resource" id=67]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/items/abaddon_baby/abaddon_baby_data.tres" type="Resource" id=68]
+
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/characters/magdalene/magdalene_data.tres" type="Resource" id=69]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/characters/cain/cain_data.tres" type="Resource" id=70]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/characters/blue_baby/blue_baby_data.tres" type="Resource" id=71]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/characters/judas/judas_data.tres" type="Resource" id=72]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/characters/keeper/keeper_data.tres" type="Resource" id=73]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/characters/forgotten/forgotten_data.tres" type="Resource" id=74]
+
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/weapons/spirit_sword/data.tres" type="Resource" id=75]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/weapons/broken_pickaxe/data.tres" type="Resource" id=76]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/weapons/sacrificial_dagger/data.tres" type="Resource" id=77]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/weapons/boomerang/data.tres" type="Resource" id=78]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/weapons/pointed_rib/data.tres" type="Resource" id=79]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/weapons/wooden_nickel/data.tres" type="Resource" id=80]
+
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/weapons/spirit_sword/2/data.tres" type="Resource" id=81]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/weapons/spirit_sword/3/data.tres" type="Resource" id=82]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/weapons/spirit_sword/4/data.tres" type="Resource" id=83]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/weapons/broken_pickaxe/2/data.tres" type="Resource" id=84]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/weapons/broken_pickaxe/3/data.tres" type="Resource" id=85]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/weapons/broken_pickaxe/4/data.tres" type="Resource" id=86]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/weapons/sacrificial_dagger/2/data.tres" type="Resource" id=87]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/weapons/sacrificial_dagger/3/data.tres" type="Resource" id=88]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/weapons/sacrificial_dagger/4/data.tres" type="Resource" id=89]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/weapons/boomerang/2/data.tres" type="Resource" id=90]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/weapons/boomerang/3/data.tres" type="Resource" id=91]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/weapons/boomerang/4/data.tres" type="Resource" id=92]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/weapons/pointed_rib/2/data.tres" type="Resource" id=93]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/weapons/pointed_rib/3/data.tres" type="Resource" id=94]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/weapons/pointed_rib/4/data.tres" type="Resource" id=95]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/weapons/wooden_nickel/2/data.tres" type="Resource" id=96]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/weapons/wooden_nickel/3/data.tres" type="Resource" id=97]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/weapons/wooden_nickel/4/data.tres" type="Resource" id=98]
+
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/sets/anger_set.tres" type="Resource" id=99]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/sets/greedy_set.tres" type="Resource" id=100]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/sets/mining_set.tres" type="Resource" id=101]
+
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/sets/zelda_set.tres" type="Resource" id=102]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/weapons/spear_of_destiny/data.tres" type="Resource" id=103]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/weapons/deaths_touch/data.tres" type="Resource" id=104]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/weapons/data_hack/data.tres" type="Resource" id=105]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/weapons/spear_of_destiny/2/data.tres" type="Resource" id=106]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/weapons/spear_of_destiny/4/data.tres" type="Resource" id=107]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/weapons/deaths_touch/4/data.tres" type="Resource" id=108]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/sets/war_set.tres" type="Resource" id=109]
+
+[resource]
+script = ExtResource( 1 )
+my_id = "Local-Isaac"
+characters = [ ExtResource( 2 ), ExtResource( 47 ), ExtResource( 69 ), ExtResource( 70 ), ExtResource( 71 ), ExtResource( 72 ), ExtResource( 73 ), ExtResource( 74 ) ]
+items = [ ExtResource( 6 ), ExtResource( 11 ), ExtResource( 12 ), ExtResource( 13 ), ExtResource( 14 ), ExtResource( 15 ), ExtResource( 16 ), ExtResource( 21 ), ExtResource( 22 ), ExtResource( 23 ), ExtResource( 24 ), ExtResource( 25 ), ExtResource( 26 ), ExtResource( 27 ), ExtResource( 28 ), ExtResource( 29 ), ExtResource( 30 ), ExtResource( 31 ), ExtResource( 32 ), ExtResource( 33 ), ExtResource( 34 ), ExtResource( 35 ), ExtResource( 36 ), ExtResource( 37 ), ExtResource( 38 ), ExtResource( 39 ), ExtResource( 40 ), ExtResource( 41 ), ExtResource( 42 ), ExtResource( 43 ), ExtResource( 44 ), ExtResource( 45 ), ExtResource( 46 ), ExtResource( 51 ), ExtResource( 52 ), ExtResource( 53 ), ExtResource( 54 ), ExtResource( 55 ), ExtResource( 56 ), ExtResource( 57 ), ExtResource( 58 ), ExtResource( 59 ), ExtResource( 60 ), ExtResource( 61 ), ExtResource( 62 ), ExtResource( 63 ), ExtResource( 64 ), ExtResource( 65 ), ExtResource( 66 ), ExtResource( 67 ), ExtResource( 68 ) ]
+weapons = [ ExtResource( 7 ), ExtResource( 8 ), ExtResource( 9 ), ExtResource( 10 ), ExtResource( 75 ), ExtResource( 76 ), ExtResource( 77 ), ExtResource( 78 ), ExtResource( 79 ), ExtResource( 80 ), ExtResource( 81 ), ExtResource( 82 ), ExtResource( 83 ), ExtResource( 84 ), ExtResource( 85 ), ExtResource( 86 ), ExtResource( 87 ), ExtResource( 88 ), ExtResource( 89 ), ExtResource( 90 ), ExtResource( 91 ), ExtResource( 92 ), ExtResource( 93 ), ExtResource( 94 ), ExtResource( 95 ), ExtResource( 96 ), ExtResource( 97 ), ExtResource( 98 ), ExtResource( 103 ), ExtResource( 104 ), ExtResource( 105 ), ExtResource( 106 ), ExtResource( 107 ), ExtResource( 108 ) ]
+sets = [ ExtResource( 17 ), ExtResource( 18 ), ExtResource( 99 ), ExtResource( 100 ), ExtResource( 101 ), ExtResource( 102 ), ExtResource( 109 ) ]
+consumables = [ ExtResource( 19 ) ]
+stats = [ ExtResource( 20 ) ]
+translations = [ ExtResource( 3 ), ExtResource( 4 ), ExtResource( 5 ) ]
+effects = [ ExtResource( 48 ), ExtResource( 49 ), ExtResource( 50 ) ]
+tracked_items = {
+"item_local_isaac_abaddon_baby": 0,
+"item_local_isaac_scorpio": 0,
+"item_local_isaac_d6": 0,
+"item_local_isaac_brother_bobby": 0,
+"item_local_isaac_sister_maggy": 0,
+"item_local_isaac_ghost_baby": 0,
+"item_local_isaac_rainbow_baby": 0,
+"item_local_isaac_incubus": 0,
+"item_local_isaac_seraphim": 0,
+"item_local_isaac_little_steven": 0,
+"item_local_isaac_demon_baby": 0,
+"item_local_isaac_bobs_brain": 0,
+"item_local_isaac_moms_knife": 0,
+"item_local_isaac_ipecac": 0,
+"item_local_isaac_eight_inch_nails": 0,
+"item_local_isaac_tough_love": 0,
+"item_local_isaac_moms_eyeshadow": 0,
+"item_local_isaac_lost_contact": 0,
+"item_local_isaac_mr_bomb": 0,
+"item_local_isaac_bomb_bogo": 0
+}

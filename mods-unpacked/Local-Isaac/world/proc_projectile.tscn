@@ -1,0 +1,22 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://projectiles/player_projectile.tscn" type="PackedScene" id=1]
+[ext_resource path="res://mods-unpacked/Local-Isaac/world/proc_projectile.gd" type="Script" id=2]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/items/tough_love/icon.png" type="Texture" id=3]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 20.0
+
+[node name="IsaacProcProjectile" instance=ExtResource( 1 )]
+script = ExtResource( 2 )
+
+[node name="Collision" parent="Hitbox" index="0"]
+shape = SubResource( 1 )
+
+[node name="ToughOverlay" type="Sprite" parent="."]
+texture = ExtResource( 3 )
+scale = Vector2(1.4, 1.4)
+visible = false
+z_index = 1
+
+[editable path="Hitbox"]

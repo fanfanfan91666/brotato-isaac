@@ -1,0 +1,28 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://entities/units/pet/pet.tscn" type="PackedScene" id=1]
+[ext_resource path="res://mods-unpacked/Local-Isaac/world/succubus.gd" type="Script" id=2]
+[ext_resource path="res://entities/units/pet/doc_moth/doc_moth_stats.tres" type="Resource" id=3]
+[ext_resource path="res://entities/units/movement_behaviors/patrol_around_the_map_movement_behavior.gd" type="Script" id=4]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/items/succubus/icon.png" type="Texture" id=5]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 16.0
+
+[node name="IsaacSuccubus" instance=ExtResource( 1 )]
+collision_layer = 512
+collision_mask = 0
+script = ExtResource( 2 )
+stats = ExtResource( 3 )
+shoot_projectiles = false
+
+[node name="Sprite" parent="Animation" index="0"]
+scale = Vector2(2.5, 2.5)
+texture = ExtResource( 5 )
+
+[node name="Collision" parent="." index="1"]
+shape = SubResource( 1 )
+
+[node name="MovementBehavior" parent="." index="5"]
+script = ExtResource( 4 )
+radius_factor = 0.8

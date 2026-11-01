@@ -1,0 +1,109 @@
+[gd_resource type="Resource" load_steps=32 format=2]
+
+[ext_resource path="res://items/characters/character_data.gd" type="Script" id=1]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/characters/keeper/portrait.png" type="Texture" id=2]
+[ext_resource path="res://weapons/melee/cactus_mace/1/cactus_mace_data.tres" type="Resource" id=8]
+[ext_resource path="res://weapons/ranged/double_barrel_shotgun/1/double_barrel_shotgun_data.tres" type="Resource" id=9]
+[ext_resource path="res://weapons/melee/stick/1/stick_data.tres" type="Resource" id=10]
+[ext_resource path="res://weapons/melee/knife/1/knife_data.tres" type="Resource" id=11]
+[ext_resource path="res://weapons/ranged/wand/1/wand_data.tres" type="Resource" id=12]
+[ext_resource path="res://weapons/ranged/taser/1/taser_data.tres" type="Resource" id=13]
+[ext_resource path="res://weapons/ranged/pistol/1/pistol_data.tres" type="Resource" id=14]
+[ext_resource path="res://weapons/ranged/smg/1/smg_data.tres" type="Resource" id=15]
+[ext_resource path="res://weapons/melee/ghost_flint/1/ghost_flint_data.tres" type="Resource" id=16]
+[ext_resource path="res://weapons/melee/fist/1/fist_data.tres" type="Resource" id=17]
+[ext_resource path="res://weapons/melee/wrench/1/wrench_data.tres" type="Resource" id=18]
+[ext_resource path="res://weapons/ranged/icicle/1/icicle_data.tres" type="Resource" id=19]
+[ext_resource path="res://weapons/ranged/slingshot/1/slingshot_data.tres" type="Resource" id=20]
+[ext_resource path="res://weapons/ranged/rail_gun/1/rail_gun_1_data.tres" type="Resource" id=21]
+[ext_resource path="res://weapons/melee/chopper/1/chopper_data.tres" type="Resource" id=22]
+[ext_resource path="res://weapons/melee/hatchet/1/hatchet_data.tres" type="Resource" id=23]
+[ext_resource path="res://weapons/melee/spiky_shield/1/spiky_shield_data.tres" type="Resource" id=24]
+[ext_resource path="res://weapons/melee/fighting_stick/1/fighting_stick_data.tres" type="Resource" id=25]
+[ext_resource path="res://items/global/effect.gd" type="Script" id=26]
+[ext_resource path="res://effects/weapons/null_effect.gd" type="Script" id=27]
+[ext_resource path="res://effects/items/stat_gains_modification_effect.gd" type="Script" id=28]
+
+[sub_resource type="Resource" id=1]
+script = ExtResource( 26 )
+key = "weapon_local_isaac_wooden_nickel_1"
+text_key = "EFFECT_LOCAL_KEEPER_STARTING_NICKEL"
+value = 1
+custom_key = "starting_weapon"
+storage_method = 1
+effect_sign = 0
+
+[sub_resource type="Resource" id=2]
+script = ExtResource( 26 )
+key = "item_dangerous_bunny"
+text_key = "EFFECT_LOCAL_ISAAC_STARTING_BUNNIES"
+value = 1
+custom_key = "starting_item"
+storage_method = 1
+effect_sign = 0
+
+[sub_resource type="Resource" id=3]
+script = ExtResource( 26 )
+key = "stat_attack_speed"
+value = -100
+effect_sign = 3
+
+[sub_resource type="Resource" id=4]
+script = ExtResource( 26 )
+key = "projectiles"
+text_key = "EFFECT_PROJECTILES"
+value = 2
+effect_sign = 3
+
+[sub_resource type="Resource" id=5]
+script = ExtResource( 26 )
+key = "enemy_gold_drops"
+text_key = "effect_enemy_gold_drops"
+value = 20
+effect_sign = 3
+
+[sub_resource type="Resource" id=6]
+script = ExtResource( 27 )
+key = "effect_local_keeper_devil_materials"
+value = 1
+effect_sign = 0
+
+[sub_resource type="Resource" id=7]
+script = ExtResource( 27 )
+key = "effect_local_keeper_no_bag"
+value = 1
+effect_sign = 1
+
+[sub_resource type="Resource" id=8]
+script = ExtResource( 28 )
+key = "effect_reduce_stat_gains"
+value = -30
+custom_key = "local_isaac_keeper_attack_speed_gain"
+effect_sign = 3
+stat_displayed = "stat_attack_speed"
+stats_modified = [ "stat_attack_speed" ]
+
+[resource]
+script = ExtResource( 1 )
+my_id = "character_local_keeper"
+unlocked_by_default = true
+can_be_looted = true
+icon = ExtResource( 2 )
+name = "CHARACTER_LOCAL_KEEPER"
+tier = 0
+value = 1
+effects = [ SubResource( 1 ), SubResource( 2 ), SubResource( 8 ), SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ) ]
+tracking_text = ""
+is_lockable = true
+unlock_codex_descr_after_get_it = 1
+is_cursed = false
+curse_factor = 0.0
+max_nb = -1
+item_appearances = [ ]
+tags = [  ]
+wanted_tags = [  ]
+banned_item_groups = [  ]
+banned_items = [  ]
+banned_upgrades = [  ]
+starting_weapons = [ ExtResource( 11 ), ExtResource( 10 ), ExtResource( 17 ), ExtResource( 22 ), ExtResource( 25 ), ExtResource( 8 ), ExtResource( 23 ), ExtResource( 24 ), ExtResource( 16 ), ExtResource( 18 ), ExtResource( 14 ), ExtResource( 15 ), ExtResource( 9 ), ExtResource( 20 ), ExtResource( 13 ), ExtResource( 12 ), ExtResource( 19 ), ExtResource( 21 ) ]
+starting_items = [  ]

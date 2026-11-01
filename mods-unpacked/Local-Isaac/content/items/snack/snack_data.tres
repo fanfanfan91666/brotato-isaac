@@ -1,0 +1,28 @@
+[gd_resource type="Resource" load_steps=6 format=2]
+
+[ext_resource path="res://mods-unpacked/Local-Isaac/effects/description_item_data.gd" type="Script" id=1]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/items/snack/icon.png" type="Texture" id=2]
+[ext_resource path="res://items/global/effect.gd" type="Script" id=3]
+
+[sub_resource type="Resource" id=1]
+script = ExtResource( 3 )
+key = "stat_max_hp"
+value = 6
+
+[sub_resource type="Resource" id=2]
+script = ExtResource( 3 )
+key = "stat_lifesteal"
+value = -1
+
+[resource]
+script = ExtResource( 1 )
+my_id = "item_local_isaac_snack"
+unlocked_by_default = true
+can_be_looted = true
+icon = ExtResource( 2 )
+name = "ITEM_LOCAL_ISAAC_SNACK"
+tier = 0
+value = 20
+effects = [ SubResource( 1 ), SubResource( 2 ) ]
+max_nb = -1
+tags = [ "stat_max_hp", "stat_lifesteal" ]

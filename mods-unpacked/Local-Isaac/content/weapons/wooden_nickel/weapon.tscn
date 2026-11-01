@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://weapons/weapon.tscn" type="PackedScene" id=1]
+[ext_resource path="res://weapons/ranged/ranged_weapon.gd" type="Script" id=2]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/weapons/wooden_nickel/icon.png" type="Texture" id=3]
+
+[node name="WoodenNickel" instance=ExtResource( 1 )]
+script = ExtResource( 2 )
+
+[node name="Sprite" parent="." index="0"]
+visible = false
+position = Vector2( 0, 0 )
+scale = Vector2( 1, 1 )
+texture = ExtResource( 3 )
+
+[node name="Muzzle" parent="Sprite" index="1"]
+position = Vector2( 0, 0 )
+
+[node name="Attach" parent="Sprite" index="2"]
+position = Vector2( 0, 0 )
+
+[editable path="Sprite/Hitbox"]

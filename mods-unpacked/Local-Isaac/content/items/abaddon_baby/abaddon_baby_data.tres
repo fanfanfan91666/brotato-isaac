@@ -1,0 +1,26 @@
+[gd_resource type="Resource" load_steps=7 format=2]
+[ext_resource path="res://mods-unpacked/Local-Isaac/effects/description_item_data.gd" type="Script" id=1]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/items/abaddon_baby/icon.png" type="Texture" id=2]
+[ext_resource path="res://items/global/effect.gd" type="Script" id=3]
+[ext_resource path="res://mods-unpacked/Local-Isaac/effects/description_pet_effect.gd" type="Script" id=4]
+[ext_resource path="res://mods-unpacked/Local-Isaac/world/abaddon_baby.tscn" type="PackedScene" id=5]
+[sub_resource type="Resource" id=1]
+script = ExtResource( 4 )
+key = "effect_local_isaac_abaddon_baby"
+text_key = "EFFECT_LOCAL_ISAAC_ABADDON_BABY"
+value = 1
+effect_sign = 2
+scene = ExtResource( 5 )
+[resource]
+script = ExtResource( 1 )
+my_id = "item_local_isaac_abaddon_baby"
+unlocked_by_default = true
+can_be_looted = true
+icon = ExtResource( 2 )
+name = "ITEM_LOCAL_ISAAC_ABADDON_BABY"
+tier = 1
+value = 40
+effects = [ SubResource( 1 ) ]
+max_nb = 1
+tracking_text = "DAMAGE_DEALT"
+tags = [ "pet", "stat_ranged_damage", "stat_melee_damage" ]

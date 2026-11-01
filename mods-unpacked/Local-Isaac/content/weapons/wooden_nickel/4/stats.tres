@@ -1,0 +1,28 @@
+[gd_resource type="Resource" load_steps=4 format=2]
+
+[ext_resource path="res://weapons/weapon_stats/ranged_weapon_stats.gd" type="Script" id=1]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/weapons/wooden_nickel/projectile.tscn" type="PackedScene" id=2]
+[ext_resource path="res://weapons/ranged/pistol/gun_pistol_shot_01.wav" type="AudioStream" id=3]
+
+[resource]
+script = ExtResource( 1 )
+cooldown = 18
+damage = 45
+accuracy = 1.0
+crit_chance = 0.2
+crit_damage = 2
+min_range = 0
+max_range = 400
+knockback = 20
+scaling_stats = [ [ "stat_ranged_damage", 0.8 ] ]
+shooting_sounds = [ ExtResource( 3 ) ]
+sound_db_mod = -18
+recoil = 4
+recoil_duration = 0.1
+nb_projectiles = 1
+projectile_spread = 0.0
+piercing = 0
+piercing_dmg_reduction = 0.5
+bounce = 0
+projectile_speed = 1200
+projectile_scene = ExtResource( 2 )

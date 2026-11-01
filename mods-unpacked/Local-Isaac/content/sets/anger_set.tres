@@ -1,0 +1,48 @@
+[gd_resource type="Resource" load_steps=13 format=2]
+[ext_resource path="res://items/sets/set_data.gd" type="Script" id=1]
+[ext_resource path="res://items/global/effect.gd" type="Script" id=2]
+[sub_resource type="Resource" id=1]
+script = ExtResource( 2 )
+key = "stat_percent_damage"
+value = 3
+[sub_resource type="Resource" id=2]
+script = ExtResource( 2 )
+key = "stat_crit_chance"
+value = 1
+[sub_resource type="Resource" id=3]
+script = ExtResource( 2 )
+key = "stat_percent_damage"
+value = 5
+[sub_resource type="Resource" id=4]
+script = ExtResource( 2 )
+key = "stat_crit_chance"
+value = 3
+[sub_resource type="Resource" id=5]
+script = ExtResource( 2 )
+key = "stat_percent_damage"
+value = 7
+[sub_resource type="Resource" id=6]
+script = ExtResource( 2 )
+key = "stat_crit_chance"
+value = 5
+[sub_resource type="Resource" id=7]
+script = ExtResource( 2 )
+key = "stat_percent_damage"
+value = 9
+[sub_resource type="Resource" id=8]
+script = ExtResource( 2 )
+key = "stat_crit_chance"
+value = 7
+[sub_resource type="Resource" id=9]
+script = ExtResource( 2 )
+key = "stat_percent_damage"
+value = 12
+[sub_resource type="Resource" id=10]
+script = ExtResource( 2 )
+key = "stat_crit_chance"
+value = 10
+[resource]
+script = ExtResource( 1 )
+my_id = "set_local_isaac_anger"
+name = "WEAPON_CLASS_LOCAL_ISAAC_ANGER"
+set_bonuses = [ [ SubResource( 1 ), SubResource( 2 ) ], [ SubResource( 3 ), SubResource( 4 ) ], [ SubResource( 5 ), SubResource( 6 ) ], [ SubResource( 7 ), SubResource( 8 ) ], [ SubResource( 9 ), SubResource( 10 ) ] ]

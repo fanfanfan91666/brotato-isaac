@@ -1,0 +1,23 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://entities/units/pet/pet.tscn" type="PackedScene" id=1]
+[ext_resource path="res://mods-unpacked/Local-Isaac/world/incubus.gd" type="Script" id=2]
+[ext_resource path="res://mods-unpacked/Local-Isaac/world/baby_stats.tres" type="Resource" id=3]
+[ext_resource path="res://entities/units/target_behavior/closest_player_target_behavior.gd" type="Script" id=4]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/items/incubus/icon.png" type="Texture" id=5]
+
+[node name="Incubus" instance=ExtResource( 1 )]
+script = ExtResource( 2 )
+stats = ExtResource( 3 )
+shoot_projectiles = true
+collision_layer = 512
+collision_mask = 0
+
+[node name="Sprite" parent="Animation" index="0"]
+texture = ExtResource( 5 )
+scale = Vector2(2.5, 2.5)
+
+[node name="TargetBehavior" parent="." index="6"]
+script = ExtResource( 4 )
+
+[node name="Weapons" type="Node2D" parent="."]

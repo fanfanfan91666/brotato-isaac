@@ -1,0 +1,26 @@
+[gd_resource type="Resource" load_steps=6 format=2]
+
+[ext_resource path="res://mods-unpacked/Local-Isaac/effects/description_item_data.gd" type="Script" id=1]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/items/leo/icon.png" type="Texture" id=2]
+[ext_resource path="res://items/global/effect.gd" type="Script" id=3]
+[ext_resource path="res://mods-unpacked/Local-Isaac/effects/description_null_effect.gd" type="Script" id=4]
+
+[sub_resource type="Resource" id=1]
+script = ExtResource( 4 )
+key = "effect_local_isaac_leo"
+text_key = "EFFECT_LOCAL_ISAAC_LEO"
+value = 0
+effect_sign = 2
+
+[resource]
+script = ExtResource( 1 )
+my_id = "item_local_isaac_leo"
+unlocked_by_default = true
+can_be_looted = true
+icon = ExtResource( 2 )
+name = "ITEM_LOCAL_ISAAC_LEO"
+tier = 0
+value = 15
+effects = [ SubResource( 1 ) ]
+max_nb = 1
+tags = [ "explosive" ]

@@ -1,0 +1,39 @@
+[gd_resource type="Resource" load_steps=8 format=2]
+
+[ext_resource path="res://mods-unpacked/Local-Isaac/effects/description_item_data.gd" type="Script" id=1]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/items/sagittarius/icon.png" type="Texture" id=2]
+[ext_resource path="res://items/global/effect.gd" type="Script" id=3]
+
+[sub_resource type="Resource" id=1]
+script = ExtResource( 3 )
+key = "piercing"
+text_key = "effect_piercing"
+value = 1
+
+[sub_resource type="Resource" id=2]
+script = ExtResource( 3 )
+key = "stat_speed"
+value = 6
+
+[sub_resource type="Resource" id=3]
+script = ExtResource( 3 )
+key = "stat_armor"
+value = -1
+
+[sub_resource type="Resource" id=4]
+script = ExtResource( 3 )
+key = "stat_percent_damage"
+value = -8
+
+[resource]
+script = ExtResource( 1 )
+my_id = "item_local_isaac_sagittarius"
+unlocked_by_default = true
+can_be_looted = true
+icon = ExtResource( 2 )
+name = "ITEM_LOCAL_ISAAC_SAGITTARIUS"
+tier = 2
+value = 80
+effects = [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ), SubResource( 4 ) ]
+max_nb = 1
+tags = [ "piercing", "stat_speed" ]

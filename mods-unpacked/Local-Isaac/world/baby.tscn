@@ -1,0 +1,38 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://entities/units/pet/pet.tscn" type="PackedScene" id=1]
+[ext_resource path="res://mods-unpacked/Local-Isaac/world/baby.gd" type="Script" id=2]
+[ext_resource path="res://mods-unpacked/Local-Isaac/world/baby_stats.tres" type="Resource" id=3]
+[ext_resource path="res://entities/units/movement_behaviors/follow_target_movement_behavior.gd" type="Script" id=4]
+[ext_resource path="res://entities/units/target_behavior/closest_player_target_behavior.gd" type="Script" id=5]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 16.0
+[sub_resource type="CircleShape2D" id=2]
+resource_local_to_scene = true
+radius = 500.0
+
+[node name="IsaacBaby" instance=ExtResource( 1 )]
+script = ExtResource( 2 )
+stats = ExtResource( 3 )
+shoot_projectiles = true
+
+[node name="Sprite" parent="Animation" index="0"]
+scale = Vector2(2.5, 2.5)
+
+[node name="Collision" parent="." index="1"]
+shape = SubResource( 1 )
+
+[node name="MovementBehavior" parent="." index="5"]
+script = ExtResource( 4 )
+stop_close_to_target = true
+distance_to_target = 100.0
+
+[node name="TargetBehavior" parent="." index="6"]
+script = ExtResource( 5 )
+
+[node name="EnemyRange" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 4
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EnemyRange"]
+shape = SubResource( 2 )

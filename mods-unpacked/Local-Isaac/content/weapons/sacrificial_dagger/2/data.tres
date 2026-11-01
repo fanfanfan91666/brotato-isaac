@@ -1,0 +1,42 @@
+[gd_resource type="Resource" load_steps=11 format=2]
+[ext_resource path="res://mods-unpacked/Local-Isaac/effects/weapon_data.gd" type="Script" id=1]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/weapons/sacrificial_dagger/icon.png" type="Texture" id=2]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/weapons/sacrificial_dagger/weapon.tscn" type="PackedScene" id=3]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/weapons/sacrificial_dagger/2/stats.tres" type="Resource" id=4]
+[ext_resource path="res://items/sets/precise/precise_set_data.tres" type="Resource" id=5]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/weapons/sacrificial_dagger/3/data.tres" type="Resource" id=6]
+[ext_resource path="res://mods-unpacked/Local-Isaac/effects/description_null_effect.gd" type="Script" id=7]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/sets/anger_set.tres" type="Resource" id=9]
+
+[sub_resource type="Resource" id=1]
+script = ExtResource( 7 )
+key = "effect_local_isaac_sacrifice_curse"
+text_key = "EFFECT_LOCAL_ISAAC_SACRIFICE_CURSE"
+value = 2
+effect_sign = 0
+[sub_resource type="Resource" id=2]
+script = ExtResource( 7 )
+key = "effect_local_isaac_sacrifice_heal"
+text_key = "EFFECT_LOCAL_ISAAC_SACRIFICE_HEAL"
+value = 30
+effect_sign = 0
+
+[resource]
+script = ExtResource( 1 )
+my_id = "weapon_local_isaac_sacrificial_dagger_2"
+unlocked_by_default = true
+can_be_looted = true
+icon = ExtResource( 2 )
+name = "WEAPON_LOCAL_ISAAC_SACRIFICIAL_DAGGER"
+tier = 1
+value = 25
+effects = [ SubResource( 1 ), SubResource( 2 ) ]
+weapon_id = "weapon_local_isaac_sacrificial_dagger"
+type = 0
+sets = [ ExtResource( 5 ), ExtResource( 9 ) ]
+scene = ExtResource( 3 )
+stats = ExtResource( 4 )
+add_to_chars_as_starting = [ ]
+upgrades_into = ExtResource( 6 )
+
+tracking_text = "LOCAL_ISAAC_CURSE_GAINED"

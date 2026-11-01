@@ -1,0 +1,45 @@
+[gd_resource type="Resource" load_steps=11 format=2]
+[ext_resource path="res://mods-unpacked/Local-Isaac/effects/weapon_data.gd" type="Script" id=1]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/weapons/pointed_rib/icon.png" type="Texture" id=2]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/weapons/pointed_rib/weapon.tscn" type="PackedScene" id=3]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/weapons/pointed_rib/3/stats.tres" type="Resource" id=4]
+[ext_resource path="res://items/sets/blunt/blunt_set_data.tres" type="Resource" id=5]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/weapons/pointed_rib/4/data.tres" type="Resource" id=6]
+[ext_resource path="res://mods-unpacked/Local-Isaac/effects/description_null_effect.gd" type="Script" id=8]
+
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/sets/anger_set.tres" type="Resource" id=9]
+
+[sub_resource type="Resource" id=1]
+script = ExtResource( 8 )
+key = "effect_local_isaac_rib_clear"
+text_key = "EFFECT_LOCAL_ISAAC_RIB_CLEAR"
+value = 15
+custom_key = "local_isaac_rib_clear_tier_3"
+effect_sign = 0
+
+[sub_resource type="Resource" id=2]
+script = ExtResource( 8 )
+key = "effect_local_isaac_rib_growth"
+text_key = "EFFECT_LOCAL_ISAAC_RIB_GROWTH"
+value = 8
+custom_key = "local_isaac_rib_growth_tier_3"
+effect_sign = 1
+
+[resource]
+script = ExtResource( 1 )
+my_id = "weapon_local_isaac_pointed_rib_3"
+unlocked_by_default = true
+can_be_looted = true
+icon = ExtResource( 2 )
+name = "WEAPON_LOCAL_ISAAC_POINTED_RIB"
+tier = 2
+value = 68
+effects = [ SubResource( 1 ), SubResource( 2 ) ]
+tracking_text = "local_isaac_rib_damage_gained"
+weapon_id = "weapon_local_isaac_pointed_rib"
+type = 0
+sets = [ ExtResource( 5 ), ExtResource( 9 ) ]
+scene = ExtResource( 3 )
+stats = ExtResource( 4 )
+add_to_chars_as_starting = [ ]
+upgrades_into = ExtResource( 6 )

@@ -1,0 +1,42 @@
+[gd_resource type="Resource" load_steps=11 format=2]
+[ext_resource path="res://mods-unpacked/Local-Isaac/effects/weapon_data.gd" type="Script" id=1]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/weapons/wooden_nickel/icon.png" type="Texture" id=2]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/weapons/wooden_nickel/weapon.tscn" type="PackedScene" id=3]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/weapons/wooden_nickel/2/stats.tres" type="Resource" id=4]
+[ext_resource path="res://items/sets/primitive/primitive_set_data.tres" type="Resource" id=5]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/weapons/wooden_nickel/3/data.tres" type="Resource" id=6]
+[ext_resource path="res://mods-unpacked/Local-Isaac/effects/description_null_effect.gd" type="Script" id=7]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/sets/greedy_set.tres" type="Resource" id=8]
+
+[sub_resource type="Resource" id=1]
+script = ExtResource( 7 )
+key = "effect_local_isaac_nickel_coin"
+text_key = "EFFECT_LOCAL_ISAAC_NICKEL_COIN"
+value = 20
+effect_sign = 0
+[sub_resource type="Resource" id=2]
+script = ExtResource( 7 )
+key = "effect_local_isaac_nickel_growth"
+text_key = "EFFECT_LOCAL_ISAAC_NICKEL_GROWTH"
+value = 20
+effect_sign = 1
+
+[resource]
+script = ExtResource( 1 )
+my_id = "weapon_local_isaac_wooden_nickel_2"
+unlocked_by_default = true
+can_be_looted = true
+icon = ExtResource( 2 )
+name = "WEAPON_LOCAL_ISAAC_WOODEN_NICKEL"
+tier = 1
+value = 30
+effects = [ SubResource( 1 ), SubResource( 2 ) ]
+weapon_id = "weapon_local_isaac_wooden_nickel"
+type = 1
+sets = [ ExtResource( 5 ), ExtResource( 8 ) ]
+scene = ExtResource( 3 )
+stats = ExtResource( 4 )
+add_to_chars_as_starting = [ ]
+upgrades_into = ExtResource( 6 )
+
+tracking_text = "MATERIALS_GAINED"
