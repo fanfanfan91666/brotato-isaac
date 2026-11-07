@@ -62,12 +62,12 @@ func _on_Hitbox_hit_something(thing_hit: Node, damage_dealt: int) -> void:
     else:
         ._on_Hitbox_hit_something(thing_hit, damage_dealt)
 
-func stop() -> void:
+func stop(from_screen_border: bool = false) -> void:
     if not isaac_detonated and isaac_proc.get("ipecac", false):
         isaac_detonated = true
         isaac_stop_position = global_position
         RULES.explode_at(global_position, isaac_proc)
-    .stop()
+    .stop(from_screen_border)
 
 func _return_to_pool() -> void:
     _hitbox.set_meta(RULES.TOUGH, false)

@@ -2,6 +2,7 @@ extends "res://entities/units/unit/unit.gd"
 
 var isaac_custom_burn_context = false
 var isaac_burn_pet_owner = -1
+var isaac_burn_pet_factor = 1.0
 var isaac_damage_was_crit = false
 
 func get_move_speed() -> float:
@@ -24,8 +25,10 @@ func take_damage(value: int, args: TakeDamageArgs) -> Array:
     isaac_damage_was_crit = false
     var old_context = isaac_custom_burn_context
     var old_owner = isaac_burn_pet_owner
+    var old_pet_factor = isaac_burn_pet_factor
     isaac_custom_burn_context = args.has_meta("isaac_custom_burn") or args.has_meta("isaac_custom_poison")
     isaac_burn_pet_owner = int(args.get_meta("isaac_pet_tick_owner")) if isaac_custom_burn_context else -1
+    isaac_burn_pet_factor = float(args.get_meta("isaac_pet_tick_factor")) if isaac_custom_burn_context and args.has_meta("isaac_pet_tick_factor") else 1.0
     var result = .take_damage(value, args)
     if isaac_damage_was_crit and result[1] > 0 and current_stats.health <= 0 and args.hitbox != null:
         load("res://mods-unpacked/Local-Isaac/weapon_rules_026.gd").critical_kill(args.hitbox.from, self)
@@ -40,6 +43,7 @@ func take_damage(value: int, args: TakeDamageArgs) -> Array:
         RunData.add_tracked_value(args.from_player_index, Keys.generate_hash("item_local_isaac_tough_love"), int(result[1] / 2))
     isaac_custom_burn_context = old_context
     isaac_burn_pet_owner = old_owner
+    isaac_burn_pet_factor = old_pet_factor
     return result
 
 func get_damage_value(dmg_value: int, from_player_index: int, armor_applied: bool = true, dodgeable: bool = true, is_crit: bool = false, hitbox: Hitbox = null, is_burning: bool = false) -> Unit.GetDamageValueResult:
@@ -64,8 +68,12 @@ func isaac_apply_final_pet_damage(result, from_player_index: int, hitbox: Hitbox
         owner = pet_rules.hitbox_owner(hitbox, from_player_index)
     elif is_burning and _burning != null:
         owner = int(_burning.get_meta(pet_rules.OWNER_META)) if _burning.has_meta(pet_rules.OWNER_META) else pet_rules.source_owner(_burning.from)
-    if result.value > 0 and pet_rules.enabled(owner):
-        result.value = int(round(result.value * pet_rules.multiplier(owner)))
+    var source = hitbox.from if hitbox != null else (_burning.from if is_burning and _burning != null else null)
+    var factor = isaac_burn_pet_factor if isaac_custom_burn_context else pet_rules.source_damage_factor(source)
+    if pet_rules.enabled(owner):
+        factor *= pet_rules.multiplier(owner)
+    if result.value > 0 and factor != 1.0:
+        result.value = int(round(result.value * factor))
 
 func apply_burning(burning_data: BurningData) -> void:
     var replaces = _burning == null or _burning.damage <= burning_data.damage

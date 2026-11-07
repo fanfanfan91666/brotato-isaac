@@ -66,6 +66,17 @@ static func same_pet_signature(first, second) -> bool:
 static func params(name: String, factor: float = 0.0) -> Dictionary:
     var f = max(0.0, factor)
     match short_name(name):
+        "divine_barrier": return {"interval": negative_int(20, f), "charges": 1}
+        "goat_head": return {"chance": 1.0}
+        "duality": return {}
+        "sin_twins": return {"damage_factor": positive(0.4, f)}
+        "bloody_gust": return {"speed": positive_int(3, f), "attack_speed": positive_int(5, f), "stacks": 10}
+        "eucharist": return {"chance": 1.0}
+        "guardian_angel": return {"orbit_speed_percent": positive_int(20, f)}
+        "nightmare": return {"radius": 200.0, "duration": 2.0, "cooldown": negative_int(8, f)}
+        "lusty_blood": return {"kills": 50, "damage": positive_int(5, f)}
+        "dark_matter": return {"base_chance": positive_int(5, f) / 100.0, "luck_chance": positive(0.001, f), "cap": 0.1, "duration": 2.0}
+        "judas_shadow": return {"damage": positive_int(15, f), "revives": 1}
         "gemini": return {"copies": positive_int(1, f)}
         "dressed_boy": return {"points": positive_int(8, f)}
         "moms_eyeshadow": return {"chance": positive_int(2, f) / 100.0, "per_luck": positive(0.0005, f), "cap": positive_int(10, f) / 100.0, "duration": positive(8.0, f)}
@@ -93,7 +104,7 @@ static func params(name: String, factor: float = 0.0) -> Dictionary:
         "bobs_brain": return {"damage": positive_int(20, f), "scaling": positive(1.0, f), "burn_coefficient": positive(0.2, f), "respawn": 3.0}
         "rainbow_baby": return {"burn_coefficient": positive(0.1, f), "duration": 3}
         "succubus": return {"damage": positive_int(5, f), "interval": 5.0}
-        "best_friends_forever": return {"damage_multiplier": 1.0 + positive_int(100, f) / 100.0, "body_scale": 1.5}
+        "best_friends_forever": return {"damage_multiplier": 1.0 + positive_int(50, f) / 100.0, "body_scale": 1.5, "aura_multiplier": 1.0 + positive_int(50, f) / 100.0, "orbit_speed_percent": positive_int(20, f)}
     # Qualitative toggles (e.g. Rock Bottom) and topology such as strictly
     # infinite penetration stay qualitative; ordinary Effect values are handled
     # directly by native curse_item and must not be boosted a second time.

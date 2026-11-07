@@ -14,6 +14,7 @@ var game
 var rocks = []
 var cooldowns = [0.0, 0.0, 0.0, 0.0]
 var hud_labels = []
+var room_chance_labels = []
 var rock_rewards = []
 var bomb_bundles = []
 var explosions_fired = 0
@@ -32,6 +33,7 @@ func _ready() -> void:
     var hud = VBoxContainer.new()
     hud.name = "IsaacBombHUD"
     hud.rect_position = Vector2(25, 220)
+    hud.add_constant_override("separation", 8)
     hud.mouse_filter = Control.MOUSE_FILTER_IGNORE
     game.get_node("UI").add_child(hud)
     for p in RunData.get_player_count():
@@ -41,23 +43,51 @@ func _ready() -> void:
             if carried.weapon_id == PICKAXE_ID:
                 pickaxe_auto_paused[p] = true
                 break
+        var block = VBoxContainer.new()
+        block.add_constant_override("separation", 0)
+        hud.add_child(block)
         var row = HBoxContainer.new()
-        hud.add_child(row)
+        row.rect_min_size.y = 40
+        block.add_child(row)
         var icon = TextureRect.new()
         icon.texture = BOMB_ICON
         icon.expand = true
         icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-        icon.rect_min_size = Vector2(96, 96)
+        # This HUD attaches directly to UI. Keep its new three-row block
+        # compact; the bomb's visible pixels occupy about 25x26 at this size.
+        icon.rect_min_size = Vector2(40, 40)
         row.add_child(icon)
         var label = Label.new()
         label.valign = Label.VALIGN_CENTER
-        label.add_font_override("font", load("res://resources/fonts/actual/base/font_40_outline.tres"))
+        label.add_font_override("font", load("res://resources/fonts/actual/base/font_32_outline.tres"))
         row.add_child(label)
         hud_labels.append(label)
+        var chance_rows = []
+        for room_name in ["devil", "angel"]:
+            var chance_row = HBoxContainer.new()
+            chance_row.rect_min_size.y = 40
+            block.add_child(chance_row)
+            var chance_icon = TextureRect.new()
+            chance_icon.texture = load("res://mods-unpacked/Local-Isaac/content/rooms/" + room_name + "_entry.png")
+            chance_icon.expand = true
+            chance_icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+            # Full-alpha 7x8 room art needs a smaller drawing height than the
+            # transparent 32x32 bomb, while retaining the same icon column.
+            chance_icon.rect_min_size = Vector2(40, 28)
+            chance_icon.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+            chance_row.add_child(chance_icon)
+            var chance_label = Label.new()
+            chance_label.valign = Label.VALIGN_CENTER
+            chance_label.add_font_override("font", load("res://resources/fonts/actual/base/font_32_outline.tres"))
+            chance_row.add_child(chance_label)
+            chance_rows.append(chance_label)
+        room_chance_labels.append(chance_rows)
 
 func _physics_process(delta: float) -> void:
     for p in hud_labels.size():
         hud_labels[p].text = ("P" + str(p + 1) + " " if RunData.get_player_count() > 1 else "") + str(RULES.count(p))
+        for kind in 2:
+            room_chance_labels[p][kind].text = str(load("res://mods-unpacked/Local-Isaac/special_rooms_034.gd").chance_for(p, kind + 1)) + "%"
     if not game._cleaning_up:
         attract_bomb_pickups()
     if not game._cleaning_up and RunData.wave_in_progress:

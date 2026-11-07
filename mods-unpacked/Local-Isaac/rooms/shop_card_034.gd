@@ -11,7 +11,7 @@ func _ready() -> void:
     get_node("BottomButtonsContainer").hide()
 
 func _isaac_capture_buy_press() -> void:
-    _isaac_buy_presses.append([player_index, item_data.my_id_hash if item_data != null else 0])
+    _isaac_buy_presses.append([player_index, item_data.my_id_hash if item_data != null else 0, room_kind])
 
 func _on_BuyButton_pressed() -> void:
     if _isaac_buy_presses.empty():
@@ -19,7 +19,7 @@ func _on_BuyButton_pressed() -> void:
     var captured = _isaac_buy_presses.pop_front()
     if not is_inside_tree() or is_queued_for_deletion() or not is_visible_in_tree() or not active or item_data == null:
         return
-    if int(captured[0]) != player_index or int(captured[1]) != item_data.my_id_hash:
+    if int(captured[0]) != player_index or int(captured[1]) != item_data.my_id_hash or int(captured[2]) != room_kind:
         return
     ._on_BuyButton_pressed()
 
@@ -28,13 +28,12 @@ func _on_BuyButton_pressed() -> void:
 func set_shop_item(data: ItemParentData, wave: int = RunData.current_wave) -> void:
     .set_shop_item(data, wave)
     var rules = load("res://mods-unpacked/Local-Isaac/special_rooms_034.gd")
-    room_kind = rules.room_kind()
-    value = rules.price_for(data, player_index)
+    value = rules.price_for(data, player_index, room_kind)
     _button.remove_additional_icon()
     _button.gold_icon.show()
-    if rules.currency_for(player_index) == "hp":
+    if rules.currency_for(player_index, room_kind) == "hp":
         _button.set_material_icon(ItemService.get_stat_icon(Keys.stat_max_hp_hash))
-        _button.set_value(value, rules.currency_amount(player_index))
+        _button.set_value(value, rules.currency_amount(player_index, room_kind))
     else:
         _button.set_material_icon(load("res://items/materials/material_ui.png"), Utils.GOLD_COLOR)
         _button.set_value(value, RunData.get_player_gold(player_index))
@@ -43,10 +42,11 @@ func set_shop_item(data: ItemParentData, wave: int = RunData.current_wave) -> vo
     disable_lock_focus()
 
 func set_room_offer(offer: Dictionary) -> void:
+    room_kind = offer.kind
     set_shop_item(offer.item, RunData.current_wave)
 
 func update_color() -> void:
-    _button.set_color_from_currency(load("res://mods-unpacked/Local-Isaac/special_rooms_034.gd").currency_amount(player_index))
+    _button.set_color_from_currency(load("res://mods-unpacked/Local-Isaac/special_rooms_034.gd").currency_amount(player_index, room_kind))
 
 func change_lock_status(_pressed: bool) -> void:
     pass

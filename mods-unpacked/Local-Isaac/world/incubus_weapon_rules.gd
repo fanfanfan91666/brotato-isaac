@@ -1,6 +1,5 @@
 extends Reference
 
-const TRACKING = "item_local_isaac_incubus"
 const PET_BONUS = preload("res://mods-unpacked/Local-Isaac/pet_bonus.gd")
 
 static func sync(weapon: Weapon, at_wave_begin: bool = true) -> void:
@@ -24,7 +23,8 @@ static func sync(weapon: Weapon, at_wave_begin: bool = true) -> void:
     weapon._hitbox.speed_percent_modifier = weapon.current_stats.speed_percent_modifier
     weapon._hitbox.effects = weapon.effects
     weapon._hitbox.from = weapon
-    weapon._hitbox.damage_tracking_key_hash = Keys.generate_hash(TRACKING)
+    weapon.damage_tracking_key_hash = Keys.generate_hash("item_local_isaac_" + weapon._parent.isaac_copy_kind)
+    weapon._hitbox.damage_tracking_key_hash = weapon.damage_tracking_key_hash
     if at_wave_begin:
         weapon._current_cooldown = weapon.get_next_cooldown(true)
     weapon.reset_cooldown()

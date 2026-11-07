@@ -69,6 +69,7 @@ func advance(delta: float) -> void:
         args.is_burning = not is_poison
         args.set_meta("isaac_custom_poison" if is_poison else "isaac_custom_burn", true)
         args.set_meta("isaac_pet_tick_owner", load("res://mods-unpacked/Local-Isaac/pet_bonus.gd").source_owner(source))
+        args.set_meta("isaac_pet_tick_factor", load("res://mods-unpacked/Local-Isaac/pet_bonus.gd").source_damage_factor(source))
         var taken = target.take_damage(damage, args)
         RULES.track_damage(data, target, int(taken[1]))
         if not valid_life():

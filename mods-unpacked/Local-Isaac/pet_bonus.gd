@@ -13,6 +13,22 @@ static func enabled(p: int) -> bool:
 static func multiplier(p: int) -> float:
     return load("res://mods-unpacked/Local-Isaac/curse_rules.gd").max_value("best_friends_forever", p, "damage_multiplier", 1.0)
 
+static func aura_multiplier(p: int) -> float:
+    return load("res://mods-unpacked/Local-Isaac/curse_rules.gd").max_value("best_friends_forever", p, "aura_multiplier", 1.0)
+
+static func apply_aura_bonus(pet: Node, p: int) -> void:
+    var zone = pet.get_node_or_null("BoostZone")
+    if zone != null:
+        if not zone.has_meta("isaac_original_aura_scale"):
+            zone.set_meta("isaac_original_aura_scale", zone.scale)
+        zone.scale = zone.get_meta("isaac_original_aura_scale") * aura_multiplier(p)
+
+static func source_damage_factor(source: Node) -> float:
+    var pet = pet_source(source)
+    if pet != null and pet.get("isaac_damage_factor") != null:
+        return float(pet.isaac_damage_factor)
+    return 1.0
+
 static func pet_source(source: Node) -> Node:
     var current = source
     for _i in range(6):

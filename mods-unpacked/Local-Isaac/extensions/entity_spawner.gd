@@ -4,6 +4,8 @@ const RULES = preload("res://mods-unpacked/Local-Isaac/bomb_rules.gd")
 
 func spawn_entity(scene: PackedScene, args: SpawnEntityArgs, data: Resource = null, source = null, charmed_by: int = -1) -> KinematicBody2D:
     var entity = .spawn_entity(scene, args, data, source, charmed_by)
+    if entity != null and args.type == EntityType.PET:
+        load("res://mods-unpacked/Local-Isaac/pet_bonus.gd").apply_aura_bonus(entity, int(entity.player_index))
     if entity != null and args.type == EntityType.PET and data != null and data.has_meta("isaac_gemini_temporary"):
         entity.set_meta("isaac_gemini_temporary", true)
         entity.set_meta("isaac_gemini_phase", data.get_meta("isaac_gemini_phase"))
@@ -14,7 +16,8 @@ func spawn_entity(scene: PackedScene, args: SpawnEntityArgs, data: Resource = nu
     return entity
 
 func on_entity_birth_timeout(birth: EntityBirth) -> void:
-    if birth.data != null and birth.data.has_meta("isaac_gemini_temporary"):
+    var request = birth.request
+    if request != null and request.data != null and request.data.has_meta("isaac_gemini_temporary"):
         var component = _main.get("isaac_gemini")
         if not _main.is_inside_tree() or not is_instance_valid(component) or component.finished:
             active_births = int(max(0, active_births - 1))

@@ -3,6 +3,7 @@ extends "res://entities/units/enemies/enemy.gd"
 var isaac_poison_generation = 0
 var isaac_petrify_status: Node = null
 var isaac_fear_status: Node = null
+var isaac_was_charmed_on_death = false
 
 func isaac_movement_blocked() -> bool:
     return (is_instance_valid(isaac_petrify_status) and isaac_petrify_status.active()) or (is_instance_valid(isaac_fear_status) and isaac_fear_status.active())
@@ -33,6 +34,7 @@ func isaac_apply_poison(data: Dictionary, generation: int) -> void:
         load("res://mods-unpacked/Local-Isaac/poison_rules.gd").apply_now(self, data)
 
 func respawn() -> void:
+    isaac_was_charmed_on_death = false
     load("res://mods-unpacked/Local-Isaac/data_hack_rules_033.gd").clear_charm(self)
     isaac_clear_petrify()
     isaac_clear_fear()
@@ -45,7 +47,8 @@ func respawn() -> void:
         slow.clear()
     .respawn()
 
-func die(args = Utils.default_die_args) -> void:
+func die(args: Entity.DieArgs = Utils.default_die_args) -> void:
+    isaac_was_charmed_on_death = get_charmed_by_player_index() >= 0
     isaac_clear_petrify()
     isaac_clear_fear()
     isaac_clear_eyeshadow()

@@ -46,7 +46,7 @@ static func fire_wave(weapon: Node) -> Node:
     args.knockback_direction = Vector2.RIGHT.rotated(weapon.global_rotation)
     args.effects = weapon.effects
     if weapon.weapon_pos < 0:
-        args.damage_tracking_key_hash = Keys.generate_hash("item_local_isaac_incubus")
+        args.damage_tracking_key_hash = weapon.damage_tracking_key_hash
     var projectile = WeaponService.spawn_projectile(weapon.muzzle.global_position, beam_stats(weapon.player_index, weapon), weapon.global_rotation, weapon, args)
     if weapon.weapon_pos >= 0:
         projectile.connect("hit_something", weapon, "on_weapon_hit_something", [projectile._hitbox])

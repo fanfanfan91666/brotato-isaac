@@ -41,7 +41,15 @@ static func count(player_index: int) -> int:
     return int(RunData.get_player_effects(player_index).get(Keys.generate_hash(STAT), 0))
 
 static func change_count(player_index: int, amount: int) -> void:
-    Utils.ncl_quiet_set_stat(Keys.generate_hash(STAT), max(0, count(player_index) + amount), player_index)
+    var key = Keys.generate_hash(STAT)
+    var effects = RunData.get_player_effects(player_index)
+    var previous = int(effects.get(key, 0))
+    var updated = int(max(0, previous + amount))
+    if updated == previous:
+        return
+    effects[key] = updated
+    RunData._are_player_stats_dirty[player_index] = true
+    Utils.reset_stat_cache(player_index)
 
 static func drop_chance(is_tree: bool = false) -> float:
     var luck_factor = clamp(1.0 + Utils.average_all_player_stats(Keys.stat_luck_hash) / 100.0, 0.0, 2.0)

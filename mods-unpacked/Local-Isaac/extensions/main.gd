@@ -4,6 +4,7 @@ const ISAAC_BOMBS = preload("res://mods-unpacked/Local-Isaac/bomb_rules.gd")
 var isaac_bomb_system: Node = null
 var isaac_gemini: Node = null
 var isaac_keeper_rules = null
+var isaac_devil_combat: Node = null
 
 func _ready() -> void:
     # Load the character-specific cleanup only when a Keeper is in this wave.
@@ -17,6 +18,21 @@ func _ready() -> void:
         isaac_gemini = load("res://mods-unpacked/Local-Isaac/world/gemini.gd").new()
         isaac_gemini.name = "IsaacGemini"
         add_child(isaac_gemini)
+    var needs_devil_combat = false
+    for player in RunData.get_player_count():
+        if RunData.get_nb_item(Keys.generate_hash("item_local_isaac_nightmare"), player) > 0 or RunData.get_nb_item(Keys.generate_hash("item_local_isaac_lusty_blood"), player) > 0 or RunData.get_nb_item(Keys.generate_hash("item_local_isaac_bloody_gust"), player) > 0:
+            needs_devil_combat = true
+            break
+    if needs_devil_combat:
+        isaac_devil_combat = load("res://mods-unpacked/Local-Isaac/world/devil_combat_0412.gd").new()
+        isaac_devil_combat.name = "IsaacDevilCombat"
+        add_child(isaac_devil_combat)
+
+func _on_enemy_died(enemy: Enemy, args: Entity.DieArgs) -> void:
+    # Count before native callbacks recycle or repurpose this pooled enemy.
+    if isaac_devil_combat != null:
+        isaac_devil_combat.on_enemy_died(enemy, args)
+    ._on_enemy_died(enemy, args)
 
 func isaac_ensure_bomb_system() -> void:
     if isaac_bomb_system != null:

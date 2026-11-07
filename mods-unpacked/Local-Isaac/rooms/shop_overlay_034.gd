@@ -4,6 +4,7 @@ signal room_closed(player)
 
 var shop: Control
 var active_player = -1
+var active_kind = 0
 var cards = []
 var slots = []
 var statues = []
@@ -117,14 +118,16 @@ func _ready() -> void:
 func is_room_open() -> bool:
     return is_inside_tree() and not is_queued_for_deletion() and visible and active_player >= 0
 
-func open_room(player: int) -> void:
+func open_room(player: int, kind: int = -1) -> void:
     if is_room_open() or shop == null or get_tree().paused:
         return
     var rules = load("res://mods-unpacked/Local-Isaac/special_rooms_034.gd")
-    if rules.room_kind() == 0 or player < 0 or player >= RunData.get_player_count():
+    kind = rules.room_kind() if kind < 0 else kind
+    if not rules.enter_room(player, kind):
         return
     active_player = player
-    rules.ensure_inventory(player, shop.get_player_shop_items(player))
+    active_kind = kind
+    rules.ensure_inventory(player, shop.get_player_shop_items(player), kind)
     # Save generation immediately. Closing the menu without buying cannot
     # replace these offers on the next launch.
     shop.isaac_save_room_state()
@@ -142,7 +145,7 @@ func open_room(player: int) -> void:
             emulator.set_process_input(false)
     shop.set_process_input(false)
     shop.get_node("Content").hide()
-    title_label.text = tr(rules.title_key()) + " (" + Text.text("WAVE", [str(RunData.current_wave)]) + ")"
+    title_label.text = tr(rules.title_key(-1, active_kind)) + " (" + Text.text("WAVE", [str(RunData.current_wave)]) + ")"
     if RunData.is_coop_run:
         title_label.text += "  P" + str(player + 1)
     show()
@@ -169,8 +172,8 @@ func close_room() -> void:
 
 func _refresh_cards() -> void:
     var rules = load("res://mods-unpacked/Local-Isaac/special_rooms_034.gd")
-    var offers = rules.get_offers(active_player)
-    var statue_name = "devil_statue" if rules.room_kind() == 1 else "angel_statue"
+    var offers = rules.get_offers(active_player, active_kind)
+    var statue_name = "devil_statue" if active_kind == 1 else "angel_statue"
     for statue in statues:
         statue.texture = load("res://mods-unpacked/Local-Isaac/content/rooms/" + statue_name + ".png")
     for card in cards:
@@ -209,9 +212,9 @@ func _refresh_cards() -> void:
 func _refresh_currency() -> void:
     var rules = load("res://mods-unpacked/Local-Isaac/special_rooms_034.gd")
     currency_icon.show()
-    if rules.currency_for(active_player) == "hp":
+    if rules.currency_for(active_player, active_kind) == "hp":
         currency_icon.set_icon(ItemService.get_stat_icon(Keys.stat_max_hp_hash))
-        gold_label.text = str(rules.currency_amount(active_player))
+        gold_label.text = str(rules.currency_amount(active_player, active_kind))
     else:
         currency_icon.set_icon(load("res://items/materials/material_ui.png"), Utils.GOLD_COLOR)
         gold_label.text = str(RunData.get_player_gold(active_player))
@@ -234,7 +237,7 @@ func _focus_first() -> void:
 func _on_buy_pressed(_card: ShopItem, slot: int) -> void:
     if not is_room_open():
         return
-    var result = load("res://mods-unpacked/Local-Isaac/special_rooms_034.gd").purchase(active_player, slot)
+    var result = load("res://mods-unpacked/Local-Isaac/special_rooms_034.gd").purchase(active_player, slot, active_kind)
     if not result.ok:
         UIService._reached_max_shake(gold_label.get_parent())
         return

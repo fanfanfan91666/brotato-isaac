@@ -14,6 +14,8 @@ powershell -ExecutionPolicy Bypass -File .\tools\build.ps1
 
 构建会校验 manifest、允许的文件类型、导入纹理是否齐全，以及模组内部 `res://mods-unpacked/Local-Isaac/` 引用是否存在；它不是完整的 GDScript 编译或游戏兼容性测试。
 
+当前构建要求 manifest 为适配 Brotato 1.2.0.1 的独立版，第三方 Mod 依赖为空。Release 仅提供以撒 ZIP 和校验文件。Windows 本地安装使用仓库内的 `tools/install.ps1` 与 `tools/isaac-local-loader.gd`，获取与安装步骤见 README；它们不属于第三方前置。
+
 ## 内容更新
 
 1. 修改 `mods-unpacked/Local-Isaac/` 内的代码或数据，必要时更新 `NewContentData.tres` 和翻译。

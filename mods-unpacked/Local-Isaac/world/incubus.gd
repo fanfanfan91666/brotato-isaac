@@ -10,6 +10,9 @@ var auto_fire = true
 var copied_weapon: Weapon
 var source_weapon: Weapon
 var orbit_angle = 0.0
+var isaac_copy_kind = "incubus"
+var isaac_damage_factor = 1.0
+var isaac_winged = true
 var sync_left = 0.0
 var shots_fired = 0
 var last_projectiles = []
@@ -26,11 +29,11 @@ func _ready() -> void:
     collision_layer = 512
     collision_mask = 0
     _animation_player.play("idle")
-    motion = MOTION.attach(self, $Animation/Sprite, true, 0.28)
+    motion = MOTION.attach(self, $Animation/Sprite, isaac_winged, 0.28)
 
 func update_data(effect: PetEffect) -> void:
     .update_data(effect)
-    curse_factor = load("res://mods-unpacked/Local-Isaac/curse_rules.gd").effect_factor(effect, player_index, "incubus")
+    curse_factor = load("res://mods-unpacked/Local-Isaac/curse_rules.gd").effect_factor(effect, player_index, isaac_copy_kind)
     _can_move = false
     can_drop_loot = false
     orbit_angle = -PI / 2.0
@@ -150,7 +153,7 @@ func refresh_copy(force: bool = false) -> void:
     copied_weapon = weapon
     copied_weapon.position = Vector2(0, -24)
     if copied_weapon.current_stats is RangedWeaponStats:
-        copied_weapon._shooting_behavior._ranged_spawn_projectile_args.damage_tracking_key_hash = Keys.generate_hash("item_local_isaac_incubus")
+        copied_weapon._shooting_behavior._ranged_spawn_projectile_args.damage_tracking_key_hash = Keys.generate_hash("item_local_isaac_" + isaac_copy_kind)
 
 func clean_scene_signals(node: Node, root: Node) -> void:
     # Railgun's owner-only charge timer, for example, is already reflected in

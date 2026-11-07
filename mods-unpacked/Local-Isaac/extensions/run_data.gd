@@ -10,6 +10,9 @@ var isaac_bomb_stat_key = 0
 var isaac_pageant_rows_key = 0
 var isaac_pageant_revision_key = 0
 var isaac_pageant_hydrated = {}
+var isaac_devil_chance_stat_key = 0
+var isaac_angel_chance_stat_key = 0
+var isaac_mutation_sources = {}
 
 func get_state() -> Dictionary:
     var state = .get_state()
@@ -23,11 +26,16 @@ func get_state() -> Dictionary:
         rows.append(progress)
     state.isaac_coin_progress = rows
     state.isaac_special_room_rows = load("res://mods-unpacked/Local-Isaac/special_rooms_034.gd").get_state()
+    state.isaac_room_chance_rows = load("res://mods-unpacked/Local-Isaac/special_rooms_034.gd").get_chance_state()
+    state.isaac_resurrection_rows_0412 = load("res://mods-unpacked/Local-Isaac/resurrection_rules_0412.gd").get_state()
     return state
 
 func resume_from_state(state: Dictionary) -> void:
     .resume_from_state(state)
+    reset_run_caches()
     load("res://mods-unpacked/Local-Isaac/special_rooms_034.gd").restore_state(state.get("isaac_special_room_rows", []))
+    load("res://mods-unpacked/Local-Isaac/special_rooms_034.gd").restore_chance_state(state.get("isaac_room_chance_rows", []))
+    load("res://mods-unpacked/Local-Isaac/resurrection_rules_0412.gd").restore_state(state.get("isaac_resurrection_rows_0412", []))
     var rows = state.get("isaac_coin_progress", [])
     for p in min(rows.size(), players_data.size()):
         for slot in min(rows[p].size(), players_data[p].weapons.size()):
@@ -71,6 +79,8 @@ func isaac_prepare_effect_keys() -> void:
 
 func reset(restart: bool = false) -> void:
     load("res://mods-unpacked/Local-Isaac/special_rooms_034.gd").reset_state()
+    load("res://mods-unpacked/Local-Isaac/resurrection_rules_0412.gd").reset_state()
+    isaac_mutation_sources.clear()
     isaac_pageant_hydrated.clear()
     if restart:
         for data in players_data:
@@ -110,6 +120,13 @@ func isaac_cache_keeper_attack_speed(player_index: int) -> void:
     Utils.reset_stat_cache(player_index)
 
 func get_stat(stat_hash: int, player_index: int) -> float:
+    # These derived probabilities live in numeric run-state rows, outside the
+    # native/private effects dictionaries and their serialized schemas.
+    if isaac_devil_chance_stat_key == 0:
+        isaac_devil_chance_stat_key = Keys.generate_hash("stat_local_isaac_devil_room_chance")
+        isaac_angel_chance_stat_key = Keys.generate_hash("stat_local_isaac_angel_room_chance")
+    if stat_hash == isaac_devil_chance_stat_key or stat_hash == isaac_angel_chance_stat_key:
+        return load("res://mods-unpacked/Local-Isaac/special_rooms_034.gd").chance_stat(stat_hash, player_index)
     var result = .get_stat(stat_hash, player_index)
     if stat_hash != Keys.stat_attack_speed_hash or player_index == DUMMY_PLAYER_INDEX:
         return result
@@ -124,6 +141,15 @@ func get_stat(stat_hash: int, player_index: int) -> float:
     # baseline by 30, so offset just that fixed change. Permanent, temporary
     # and linked gains retain native .7 scaling and native modifier stacking.
     return result + float(owner.get_meta(ISAAC_KEEPER_ATTACK_SPEED_META))
+
+func on_wave_start(timer: WaveTimer) -> void:
+    load("res://mods-unpacked/Local-Isaac/special_rooms_034.gd").begin_wave()
+    .on_wave_start(timer)
+
+func on_wave_end() -> void:
+    # Resolve before native resets wave_in_progress and saves shop state.
+    load("res://mods-unpacked/Local-Isaac/special_rooms_034.gd").complete_wave()
+    .on_wave_end()
 
 func get_player_effects(player_index: int) -> Dictionary:
     var effects = .get_player_effects(player_index)
@@ -165,12 +191,22 @@ func get_player_items(player_index: int) -> Array:
     return result
 
 func add_item(item: ItemData, player_index: int, is_selection: bool = false) -> void:
-    if item.my_id == "item_local_isaac_dressed_boy":
+    var mutation_source = isaac_mutation_sources.get(player_index)
+    var same_item_mutation = mutation_source != null and mutation_source.my_id == item.my_id
+    if mutation_source != null:
+        isaac_mutation_sources.erase(player_index)
+        if not same_item_mutation:
+            isaac_finish_item_removal(mutation_source, player_index)
+    if item.my_id == "item_local_isaac_dressed_boy" and not same_item_mutation:
         item = load("res://mods-unpacked/Local-Isaac/new_items_019.gd").prepare_random(item, isaac_resetting_run and is_selection)
     .add_item(item, player_index, is_selection)
     if item.my_id == "item_local_isaac_dressed_boy":
         get_player_effects(player_index)[Keys.generate_hash("local_isaac_pageant_rows")].append(item.isaac_random_points.duplicate())
         get_player_effects(player_index)[isaac_pageant_revision_key] += 1
+    if same_item_mutation:
+        return
+    load("res://mods-unpacked/Local-Isaac/resurrection_rules_0412.gd").item_added(item, player_index)
+    if item.my_id == "item_local_isaac_dressed_boy":
         if is_selection:
             get_player_effects(player_index)[Keys.generate_hash("local_isaac_pageant_selected")] = item.isaac_random_points.duplicate()
         load("res://mods-unpacked/Local-Isaac/new_items_019.gd").grant_random(item, player_index)
@@ -186,20 +222,41 @@ func add_item(item: ItemData, player_index: int, is_selection: bool = false) -> 
         if bombs > 0:
             RunData.add_tracked_value(player_index, item.my_id_hash, bombs)
 
-func remove_item(item: ItemData, player_index: int, by_id: bool = false) -> void:
+func mutate_random_item(player_index: int):
+    var result = .mutate_random_item(player_index)
+    var mutation_source = isaac_mutation_sources.get(player_index)
+    if mutation_source != null:
+        isaac_mutation_sources.erase(player_index)
+        isaac_finish_item_removal(mutation_source, player_index)
+    return result
+
+func remove_item(item: ItemData, player_index: int, by_id: bool = false, apply_replacement: bool = true) -> void:
     if item.my_id == "item_local_isaac_dressed_boy":
-        var ordinal = 0
+        var outfits = []
         for data in get_player_items(player_index):
-            if data.my_id != item.my_id:
-                continue
-            if by_id or ItemService.is_same_item(item, data):
-                var rows = get_player_effects(player_index)[Keys.generate_hash("local_isaac_pageant_rows")]
-                if ordinal < rows.size():
-                    rows.remove(ordinal)
-                    get_player_effects(player_index)[isaac_pageant_revision_key] += 1
-                break
-            ordinal += 1
-    .remove_item(item, player_index, by_id)
+            if data.my_id == item.my_id:
+                outfits.append(data)
+        var ordinal = 0 if by_id and not outfits.empty() else outfits.find(item)
+        if ordinal < 0 and not by_id:
+            for index in outfits.size():
+                if ItemService.is_same_item(item, outfits[index]):
+                    ordinal = index
+                    break
+        var rows = get_player_effects(player_index)[isaac_pageant_rows_key]
+        if ordinal >= 0 and ordinal < rows.size():
+            rows.remove(ordinal)
+            get_player_effects(player_index)[isaac_pageant_revision_key] += 1
+    # Primal Dread removes the source and adds its mutation synchronously. A
+    # same-ID replacement keeps acquisition-only bonuses and the spent ledger.
+    var mutation = _is_mutating and not apply_replacement and item.my_id.begins_with("item_local_isaac_")
+    if mutation:
+        isaac_mutation_sources[player_index] = item
+    .remove_item(item, player_index, by_id, apply_replacement)
+    if not mutation:
+        isaac_finish_item_removal(item, player_index, by_id)
+
+func isaac_finish_item_removal(item: ItemData, player_index: int, by_id: bool = false) -> void:
+    load("res://mods-unpacked/Local-Isaac/resurrection_rules_0412.gd").item_removed(item, player_index, by_id)
     if item.my_id == "item_local_isaac_moms_knife":
         get_player_effects(player_index)[Keys.generate_hash("local_isaac_knife_progress")] = 0
     if item.my_id == "item_local_isaac_rock_bottom" and get_nb_item(item.my_id_hash, player_index) == 0:
@@ -265,6 +322,33 @@ func remove_weapon(weapon: WeaponData, player_index: int) -> int:
 func remove_all_weapons(player_index: int) -> void:
     .remove_all_weapons(player_index)
     get_player_effects(player_index)[Keys.generate_hash("local_isaac_ipecac_weapon_progress")] = []
+
+func combine_weapon(weapon_data: WeaponData, other_weapon, player_index: int) -> WeaponData:
+    if weapon_data.weapon_id != "weapon_local_isaac_wooden_nickel":
+        return .combine_weapon(weapon_data, other_weapon, player_index)
+    var previous = get_player_weapons(player_index)
+    var result = .combine_weapon(weapon_data, other_weapon, player_index)
+    isaac_transfer_coin_progress(previous, result, player_index)
+    return result
+
+func meca_upgrade_weapon(weapon_data: WeaponData, upgraded_weapon: WeaponData, player_index: int) -> WeaponData:
+    if weapon_data.weapon_id != "weapon_local_isaac_wooden_nickel":
+        return .meca_upgrade_weapon(weapon_data, upgraded_weapon, player_index)
+    var previous = get_player_weapons(player_index)
+    var result = .meca_upgrade_weapon(weapon_data, upgraded_weapon, player_index)
+    isaac_transfer_coin_progress(previous, result, player_index)
+    return result
+
+func isaac_transfer_coin_progress(previous: Array, result: WeaponData, player_index: int) -> void:
+    if result == null or result.weapon_id != "weapon_local_isaac_wooden_nickel":
+        return
+    var current = get_player_weapons_ref(player_index)
+    var progress = 0
+    for old in previous:
+        if old.weapon_id == result.weapon_id and not current.has(old):
+            progress += old.isaac_coin_progress
+    result.isaac_coin_progress = progress
+    load("res://mods-unpacked/Local-Isaac/weapon_rules_026.gd").settle_coin(result, player_index)
 
 func add_gold(value: int, player_index: int) -> void:
     .add_gold(value, player_index)

@@ -66,7 +66,7 @@ static func explode_at(pos: Vector2, source: Node, data: Dictionary) -> Node:
     args.from = source
     var copied = source.weapon_pos < 0
     if copied:
-        args.damage_tracking_key_hash = Keys.generate_hash("item_local_isaac_incubus")
+        args.damage_tracking_key_hash = source.damage_tracking_key_hash
     var result = WeaponService.explode(PLANK, args)
     if not copied:
         result.connect("hit_something", source, "on_weapon_hit_something", [result._hitbox])

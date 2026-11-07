@@ -14,10 +14,9 @@ if ($manifest.namespace -ne 'Local' -or $manifest.name -ne 'Isaac') {
 }
 $version = [string]$manifest.version_number
 if ($version -notmatch '^\d+\.\d+\.\d+$') { throw 'Expected a numeric major.minor.patch version.' }
-if (@($manifest.dependencies).Count -ne 2 -or
-    @($manifest.dependencies) -notcontains 'Yoko-NewContentLoader' -or
-    @($manifest.dependencies) -notcontains 'Yoko-MoreStatsContainer') {
-    throw 'Unexpected dependency list in manifest.json.'
+if (@($manifest.dependencies).Count -ne 0 -or
+    @($manifest.extra.godot.compatible_game_version) -notcontains '1.2.0.1') {
+    throw 'Expected the standalone Brotato 1.2.0.1 edition of Local-Isaac.'
 }
 
 $allowedExtensions = @('.gd', '.shader', '.json', '.md', '.png', '.import', '.tres', '.tscn')

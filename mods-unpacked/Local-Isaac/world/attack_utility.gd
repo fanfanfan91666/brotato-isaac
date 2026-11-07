@@ -1,6 +1,7 @@
 extends Node
 
 const PETRIFY_LIVES = "isaac_petrify_hit_lives"
+const CHARM_SCENE = "res://mods-unpacked/Local-Isaac/world/eyeshadow_charm.tscn"
 
 var hitbox: Hitbox
 var owner_index = -1
@@ -75,20 +76,41 @@ func charm_enemy(target_ref: WeakRef, generation: int, duration: float) -> void:
         return
     apply_charm(target, owner_index, duration)
 
-static func apply_charm(target: Node, p: int, duration: float) -> void:
+static func apply_charm(target: Node, p: int, duration: float, from_data_hack: bool = false) -> Node:
     if not is_instance_valid(target) or not target is Enemy or target is Boss or target.dead or target._pending_die or target.is_loot or not target.can_be_charmed:
-        return
+        return null
+    var effects = target.effect_behaviors
+    if p < 0 or p >= RunData.get_player_count() or not is_instance_valid(effects) or not effects.is_inside_tree():
+        return null
     if target.get_charmed_by_player_index() >= 0:
-        return
-    var behavior = target.effect_behaviors.get_node_or_null("IsaacEyeshadowCharm")
+        return null
+    var behavior = effects.get_node_or_null("IsaacEyeshadowCharm")
     if behavior == null:
-        behavior = load("res://mods-unpacked/Local-Isaac/world/eyeshadow_charm.tscn").instance()
-        behavior.init(target)
-        target.effect_behaviors.add_child(behavior)
+        var scene = load(CHARM_SCENE)
+        if not scene is PackedScene:
+            return null
+        behavior = scene.instance()
+        if behavior == null:
+            return null
+        if not behavior.has_method("charm") or not behavior.has_method("init") or behavior.init(target) == null:
+            behavior.free()
+            return null
+        effects.add_child(behavior)
+        if behavior.get_parent() != effects:
+            behavior.free()
+            return null
+    if not behavior.is_inside_tree() or behavior.is_queued_for_deletion():
+        return null
+    if from_data_hack:
+        behavior.set_meta("isaac_data_hack_charm", true)
+    elif behavior.has_meta("isaac_data_hack_charm"):
+        behavior.remove_meta("isaac_data_hack_charm")
     behavior.charm(p)
     behavior._absorb_next_damage = false
     behavior._charm_timer.start(duration)
-    RunData.add_tracked_value(p, Keys.generate_hash("item_local_isaac_moms_eyeshadow"), 1)
+    if not from_data_hack:
+        RunData.add_tracked_value(p, Keys.generate_hash("item_local_isaac_moms_eyeshadow"), 1)
+    return behavior
 
 func _physics_process(delta: float) -> void:
     if disposed or not flags.get("clear", false) or not RunData.wave_in_progress or not hitbox.active or hitbox.is_disabled():

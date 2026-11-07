@@ -11,7 +11,10 @@ static func count(name: String, p: int) -> int:
     return RunData.get_nb_item(Keys.generate_hash("item_local_isaac_" + name), p)
 
 static func eligible(stat_hash: int) -> bool:
-    if stat_hash == Keys.generate_hash("stat_local_isaac_bombs"):
+    # The signed faction meter must reflect the current Primal Dread alignment.
+    if stat_hash == Keys.stat_evolution_hash:
+        return false
+    if Keys.hash_to_string.get(stat_hash, "") in ["stat_local_isaac_bombs", "stat_local_isaac_devil_room_chance", "stat_local_isaac_angel_room_chance"]:
         return false
     return Utils.is_stat_key(stat_hash)
 

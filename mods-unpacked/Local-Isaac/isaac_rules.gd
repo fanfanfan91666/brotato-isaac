@@ -6,9 +6,15 @@ const COUPONS_KEY = "local_isaac_d6_free_rerolls"
 const BASE_CHANCE = 0.5
 
 static func common_starting_weapons() -> Array:
+    # The encyclopedia includes owned but inactive DLC. Starting weapons use
+    # the same base and active update sets as the native run's unlocked pool.
+    var active_weapons = ItemService.base_game_item_set.weapons.duplicate()
+    for update in ItemService.update_data_list:
+        if update != null and update.item_set != null and ProgressData.has_item_set(update.id):
+            active_weapons.append_array(update.item_set.weapons)
     var weapons = []
     var seen = {}
-    for weapon in ItemService.weapons:
+    for weapon in active_weapons:
         if not weapon is WeaponData or weapon.tier != Tier.COMMON:
             continue
         if not weapon.type in [WeaponType.MELEE, WeaponType.RANGED]:

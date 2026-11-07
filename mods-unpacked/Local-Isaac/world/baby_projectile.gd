@@ -32,13 +32,13 @@ func _on_Hitbox_hit_something(target: Node, damage: int) -> void:
     else:
         ._on_Hitbox_hit_something(target, damage)
 
-func stop() -> void:
+func stop(from_screen_border: bool = false) -> void:
     if not detonated and baby_shot.get("kind", -1) == 3 and baby_shot.mode == 1:
         detonated = true
         var game = Utils.get_scene_node()
         if game is Main and not game._cleaning_up and RunData.wave_in_progress:
             game.call_deferred("isaac_baby_explode", global_position, baby_shot.duplicate(true))
-    .stop()
+    .stop(from_screen_border)
 
 func _return_to_pool() -> void:
     _hitbox.deals_damage = true

@@ -202,17 +202,8 @@ static func apply_first_hit(target_ref: WeakRef, generation: int, position: Vect
         return projectile
     if not valid_target(target, generation) or target is Boss:
         return null
-    if outcome == 4 and target.can_be_charmed and not target.is_loot and target.get_charmed_by_player_index() < 0:
-        var behavior = target.effect_behaviors.get_node_or_null("IsaacEyeshadowCharm")
-        if behavior == null:
-            behavior = load("res://mods-unpacked/Local-Isaac/world/eyeshadow_charm.tscn").instance()
-            behavior.init(target)
-            target.effect_behaviors.add_child(behavior)
-        behavior.set_meta("isaac_data_hack_charm", true)
-        behavior.charm(int(data.owner))
-        behavior._absorb_next_damage = false
-        behavior._charm_timer.start(8.0 * data.factor)
-        return behavior
+    if outcome == 4:
+        return load("res://mods-unpacked/Local-Isaac/world/attack_utility.gd").apply_charm(target, int(data.owner), 8.0 * data.factor, true)
     elif outcome == 7 and target.get_charmed_by_player_index() < 0:
         # A private hitbox preserves native death, loot, kill signals and the
         # weapon's own damage counter without fabricating a critical hit.
@@ -241,8 +232,8 @@ static func track_damage(data: Dictionary, target: Node, damage: int) -> void:
         return
     if source.weapon_pos >= 0:
         source.on_weapon_hit_something(target, damage, null)
-    else:
-        RunData.add_tracked_value(int(data.owner), Keys.generate_hash("item_local_isaac_incubus"), damage)
+    elif source.damage_tracking_key_hash != Keys.empty_hash:
+        RunData.add_tracked_value(int(data.owner), source.damage_tracking_key_hash, damage)
 
 static func fire_projectile(position: Vector2, direction: float, data: Dictionary) -> Node:
     if valid_game(data) == null:
@@ -254,7 +245,7 @@ static func fire_projectile(position: Vector2, direction: float, data: Dictionar
     args.from_player_index = int(data.owner)
     args.knockback_direction = Vector2.RIGHT.rotated(direction)
     if source.weapon_pos < 0:
-        args.damage_tracking_key_hash = Keys.generate_hash("item_local_isaac_incubus")
+        args.damage_tracking_key_hash = source.damage_tracking_key_hash
     var projectile = WeaponService.spawn_projectile(position, data.projectile_stats, direction, source, args)
     if source.weapon_pos >= 0:
         projectile.connect("hit_something", source, "on_weapon_hit_something", [projectile._hitbox])
@@ -279,7 +270,7 @@ static func explode_at(position: Vector2, data: Dictionary) -> Node:
     args.from_player_index = int(data.owner)
     args.from = source
     if source.weapon_pos < 0:
-        args.damage_tracking_key_hash = Keys.generate_hash("item_local_isaac_incubus")
+        args.damage_tracking_key_hash = source.damage_tracking_key_hash
     var explosion = WeaponService.explode(BLAST, args)
     explosion._hitbox.set_meta(META_DOUBLE, false)
     if explosion._hitbox.has_meta(META_LIVES):

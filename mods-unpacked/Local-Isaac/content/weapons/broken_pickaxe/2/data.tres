@@ -38,7 +38,6 @@ type = 0
 sets = [ ExtResource( 5 ), ExtResource( 8 ) ]
 scene = ExtResource( 3 )
 stats = ExtResource( 4 )
-add_to_chars_as_starting = [ ]
 upgrades_into = ExtResource( 6 )
 
 tracking_text = "LOCAL_ISAAC_DAMAGE_GAINED"

@@ -17,6 +17,9 @@ func deserialize_and_merge(serialized: Dictionary) -> void:
         tracking_text = current_tracking_text
     if my_id == "item_local_isaac_double_vision":
         max_nb = 1
+    if my_id == "item_local_isaac_abaddon_baby":
+        tier = 0
+        value = 25
     if my_id == "item_local_isaac_libra":
         # Rebase saved presentation only; the acquisition conversion already
         # changed permanent stats and must never run again while loading.

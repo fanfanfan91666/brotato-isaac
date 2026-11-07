@@ -1,4 +1,4 @@
-extends "res://dlcs/dlc_1/effect_behaviors/enemy/charm_enemy_effect_behavior.gd"
+extends "res://effect_behaviors/enemies/charm_enemy_effect_behavior.gd"
 
 func on_hurt(_hitbox: Hitbox) -> void:
     # The equipped weapon already rolled once for this attack/volley.
@@ -33,6 +33,7 @@ func uncharm() -> void:
     _absorb_next_damage = false
     _charm_timer.stop()
     if is_instance_valid(_parent):
+        _parent._is_charmed = _parent.get_charmed_by_player_index() >= 0
         _parent.remove_outline(Utils.CHARM_COLOR)
         _parent.reset_damage_stat()
         _parent._hurtbox.enable()

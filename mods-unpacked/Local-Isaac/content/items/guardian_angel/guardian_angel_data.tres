@@ -1,0 +1,25 @@
+[gd_resource type="Resource" load_steps=5 format=2]
+
+[ext_resource path="res://mods-unpacked/Local-Isaac/effects/description_item_data.gd" type="Script" id=1]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/items/guardian_angel/icon.png" type="Texture" id=2]
+[ext_resource path="res://mods-unpacked/Local-Isaac/effects/description_null_effect.gd" type="Script" id=3]
+
+[sub_resource type="Resource" id=1]
+script = ExtResource( 3 )
+key = "effect_local_isaac_guardian_angel"
+text_key = "EFFECT_LOCAL_ISAAC_GUARDIAN_ANGEL"
+value = 0
+effect_sign = 0
+
+[resource]
+script = ExtResource( 1 )
+my_id = "item_local_isaac_guardian_angel"
+unlocked_by_default = true
+can_be_looted = false
+icon = ExtResource( 2 )
+name = "ITEM_LOCAL_ISAAC_GUARDIAN_ANGEL"
+tier = 2
+value = 60
+effects = [ SubResource( 1 ) ]
+max_nb = 1
+tags = [ "pet" ]

@@ -7,7 +7,17 @@ var isaac_helper_cache = []
 var isaac_head_setup
 
 func _ready() -> void:
-    call_deferred("isaac_hold_helpers")
+    call_deferred("isaac_finish_startup")
+
+func isaac_finish_startup() -> void:
+    if ItemService.has_method("isaac_register_content"):
+        if ItemService.isaac_register_content():
+            ProgressData.add_unlocked_by_default()
+        # ProgressData loads the default unlocks after its first pool build.
+        ItemService.init_unlocked_pool()
+    else:
+        ModLoaderLog.error("ItemService extension needs to be installed before its autoload is created.", "Local-Isaac")
+    isaac_hold_helpers()
 
 func isaac_hold_helpers() -> void:
     if not isaac_helper_cache.empty():
@@ -29,6 +39,11 @@ func isaac_hold_helpers() -> void:
         isaac_helper_cache.append(load("res://mods-unpacked/Local-Isaac/" + path))
     isaac_helper_cache.append(load("res://mods-unpacked/Local-Isaac/rib_size_rules_037.gd"))
     isaac_helper_cache.append(load("res://mods-unpacked/Local-Isaac/forgotten_rules.gd"))
+    isaac_helper_cache.append(load("res://mods-unpacked/Local-Isaac/resurrection_rules_0412.gd"))
+    isaac_helper_cache.append(load("res://mods-unpacked/Local-Isaac/world/forget_rewind_0412.gd"))
+    isaac_helper_cache.append(load("res://mods-unpacked/Local-Isaac/world/divine_barrier_0413.gd"))
+    isaac_helper_cache.append(load("res://mods-unpacked/Local-Isaac/world/guardian_angel_0413.gd"))
+    isaac_helper_cache.append(load("res://mods-unpacked/Local-Isaac/world/guardian_angel.tscn"))
     call_deferred("isaac_setup_head_visuals")
 
 func isaac_setup_head_visuals() -> void:
@@ -40,7 +55,9 @@ func isaac_setup_head_visuals() -> void:
 func _init() -> void:
     var extensions = ModLoaderMod.get_unpacked_dir().plus_file("Local-Isaac/extensions")
     ModLoaderMod.install_script_extension(extensions.plus_file("weapon_selection.gd"))
-    ModLoaderMod.install_script_extension(extensions.plus_file("base_shop.gd"))
+    # The 1.2 BaseShop initializes next_wave from RunData while parsing.
+    # Install it after the game autoloads are available.
+    call_deferred("isaac_install_shop_extension", extensions.plus_file("base_shop.gd"))
     ModLoaderMod.install_script_extension(extensions.plus_file("player.gd"))
     ModLoaderMod.install_script_extension(extensions.plus_file("ui_progress_bar.gd"))
     ModLoaderMod.install_script_extension(extensions.plus_file("player_ui_elements.gd"))
@@ -52,6 +69,7 @@ func _init() -> void:
     ModLoaderMod.install_script_extension(extensions.plus_file("consumable.gd"))
     ModLoaderMod.install_script_extension(extensions.plus_file("item_service.gd"))
     ModLoaderMod.install_script_extension(extensions.plus_file("stat_container.gd"))
+    ModLoaderMod.install_script_extension(extensions.plus_file("stats_container.gd"))
     ModLoaderMod.install_script_extension(extensions.plus_file("weapon.gd"))
     ModLoaderMod.install_script_extension(extensions.plus_file("utils.gd"))
     ModLoaderMod.install_script_extension(extensions.plus_file("weapon_service.gd"))
@@ -59,3 +77,8 @@ func _init() -> void:
     ModLoaderMod.install_script_extension(extensions.plus_file("melee_shooting.gd"))
     ModLoaderMod.install_script_extension(extensions.plus_file("unit.gd"))
     ModLoaderMod.install_script_extension(extensions.plus_file("enemy.gd"))
+    if ResourceLoader.exists("res://dlcs/dlc_1/dlc_data.tres"):
+        ModLoaderMod.install_script_extension(extensions.plus_file("dlc_1_data.gd"))
+
+func isaac_install_shop_extension(extension_path: String) -> void:
+    ModLoaderMod.install_script_extension(extension_path)

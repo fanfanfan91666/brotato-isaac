@@ -10,6 +10,7 @@ export(int) var isaac_balance038_version = 1
 export(int) var isaac_balance039_version = 1
 export(int) var isaac_balance040_version = 1
 export(int) var isaac_catalog041_version = 1
+export(int) var isaac_balance0411_version = 1
 
 func serialize() -> Dictionary:
     var result = .serialize()
@@ -23,6 +24,7 @@ func serialize() -> Dictionary:
     result.isaac_balance039_version = isaac_balance039_version
     result.isaac_balance040_version = isaac_balance040_version
     result.isaac_catalog041_version = isaac_catalog041_version
+    result.isaac_balance0411_version = isaac_balance0411_version
     return result
 
 func deserialize_and_merge(saved: Dictionary) -> void:
@@ -92,9 +94,58 @@ func deserialize_and_merge(saved: Dictionary) -> void:
     isaac_balance040_version = 1
     normalize_rib038(int(saved.get("isaac_balance038_version", 0)) < 1)
     isaac_balance038_version = 1
+    var was_placeholder041 = int(saved.get("isaac_catalog041_version", 0)) < 1 and saved.stats.type == "base"
     if int(saved.get("isaac_catalog041_version", 0)) < 1:
-        normalize_catalog041(saved.stats.type == "base")
+        normalize_catalog041(was_placeholder041)
     isaac_catalog041_version = 1
+    if int(saved.get("isaac_balance0411_version", 0)) < 1:
+        normalize_balance0411(was_placeholder041)
+    isaac_balance0411_version = 1
+    normalize_death_set0411()
+
+func normalize_balance0411(from_current_template: bool) -> void:
+    if weapon_id != "weapon_local_isaac_deaths_touch" and weapon_id != "weapon_local_isaac_spear_of_destiny":
+        return
+    var current = ItemService.get_element_safe(ItemService.weapons, my_id)
+    if current == null:
+        return
+    if weapon_id == "weapon_local_isaac_spear_of_destiny":
+        # Display-only change: keep every saved melee stat and effect.
+        icon = current.icon
+        return
+    # Stats have their own native Curse roll; the item's curse_factor may be
+    # a stronger fear-effect roll. Recover the stat roll from its ranged row.
+    # Old placeholders were just rebuilt from the current 100% template above.
+    var previous_scaling = 0.8 if tier == 2 and not from_current_template else 1.0
+    var ranged = WeaponService.find_scaling_stat(Keys.stat_ranged_damage_hash, stats.scaling_stats)
+    var factor = stepify(max(1.0, float(ranged[1]) / previous_scaling), 0.000001) if is_cursed and ranged != null else 1.0
+    if is_cursed and ranged == null:
+        factor = 1.0 + max(0.0, curse_factor)
+    stats.damage = int(ceil(current.stats.damage * factor))
+    stats.scaling_stats = current.stats.scaling_stats.duplicate(true)
+    for row in stats.scaling_stats:
+        row[1] *= factor
+    stats.crit_chance = current.stats.crit_chance
+    stats.crit_damage = stepify(current.stats.crit_damage * (1.0 + (factor - 1.0) / 5.0), 0.1) if is_cursed else current.stats.crit_damage
+    stats.cooldown = current.stats.cooldown
+    stats.recoil_duration = current.stats.recoil_duration
+    stats.max_range = current.stats.max_range
+    stats.bounce = int(min(current.stats.bounce + 1, ceil(current.stats.bounce * (1.0 + (factor - 1.0) / 5.0)))) if is_cursed else current.stats.bounce
+    stats.piercing = int(min(current.stats.piercing + 1, ceil(current.stats.piercing * (1.0 + (factor - 1.0) / 5.0)))) if is_cursed else current.stats.piercing
+    stats.piercing_dmg_reduction = current.stats.piercing_dmg_reduction
+    stats.bounce_dmg_reduction = current.stats.bounce_dmg_reduction
+
+func normalize_death_set0411() -> void:
+    if weapon_id != "weapon_local_isaac_deaths_touch":
+        return
+    for existing in sets:
+        if existing.my_id == "set_local_isaac_death":
+            return
+    # Native deserialization replaces template sets with the saved list. Only
+    # append our missing family; preserve saved third-party set membership.
+    var death_set = ItemService.get_element_safe(ItemService.sets, "set_local_isaac_death")
+    if death_set != null:
+        sets.append(death_set.duplicate())
 
 func normalize_catalog041(was_placeholder: bool) -> void:
     if not was_placeholder or (weapon_id != "weapon_local_isaac_spear_of_destiny" and weapon_id != "weapon_local_isaac_deaths_touch"):
@@ -108,7 +159,6 @@ func normalize_catalog041(was_placeholder: bool) -> void:
     value = current.value
     sets = current.sets.duplicate()
     is_lockable = current.is_lockable
-    add_to_chars_as_starting = current.add_to_chars_as_starting.duplicate()
     stats = current.stats.duplicate(true)
     if is_cursed:
         # Old placeholders had no effects, so the saved item factor is the

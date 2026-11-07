@@ -77,6 +77,28 @@ static func get_text(effect: Resource, p: int, colored: bool = true) -> String:
     var config = rules.params(name, factor)
     var args = []
     match name:
+        "divine_barrier":
+            args = [number(config.interval, colored), number(config.charges, colored)]
+        "goat_head", "duality":
+            args = []
+        "sin_twins":
+            args = [number(config.damage_factor * 100.0, colored)]
+        "bloody_gust":
+            args = [number(config.speed, colored), number(config.attack_speed, colored), number(config.stacks, colored), icon(Keys.stat_speed_hash), icon(Keys.stat_attack_speed_hash)]
+        "eucharist":
+            args = [number(config.chance * 100.0, colored)]
+        "guardian_angel":
+            args = [number(config.orbit_speed_percent, colored)]
+        "nightmare":
+            args = [number(config.duration, colored), number(config.cooldown, colored)]
+        "pound_of_flesh", "forget_me_now":
+            args = []
+        "lusty_blood":
+            args = [number(config.kills, colored), number(config.damage, colored), icon(Keys.stat_percent_damage_hash)]
+        "dark_matter":
+            args = [number(config.base_chance * 100.0, colored), number(config.luck_chance * 1000.0, colored), number(config.cap * 100.0, colored), number(config.duration, colored), icon(Keys.stat_luck_hash)]
+        "judas_shadow":
+            args = [number(config.revives, colored), number(config.damage, colored), icon(Keys.stat_percent_damage_hash)]
         "weapon_fear":
             args = [number(min(100, effect.value), colored), number(2, colored), number(30, colored)]
         "effect_local_forgotten_body_size":
@@ -121,9 +143,9 @@ static func get_text(effect: Resource, p: int, colored: bool = true) -> String:
                 args[1] = number(config.duration, colored)
         "abaddon_baby":
             var raw = RangedWeaponStats.new()
-            raw.damage = 10
+            raw.damage = 15
             raw.scaling_stats = [[Keys.stat_ranged_damage_hash, 0.5], [Keys.stat_melee_damage_hash, 0.5]]
-            raw.cooldown = 300
+            raw.cooldown = 180
             var stats = WeaponService.init_ranged_pet_stats(rules.boost_pet_stats(raw, factor), p)
             args = [formula(stats, colored), number(stats.cooldown / 60.0, colored)]
         "scorpio":
@@ -194,7 +216,7 @@ static func get_text(effect: Resource, p: int, colored: bool = true) -> String:
             var multiplier = load("res://mods-unpacked/Local-Isaac/pet_bonus.gd").multiplier(p)
             args = [number(config.interval, colored), number(int(round(config.damage * multiplier)), colored), icon(Keys.stat_percent_damage_hash)]
         "best_friends_forever":
-            args = [number(config.damage_multiplier, colored)]
+            args = [number(config.damage_multiplier, colored), number(config.aura_multiplier, colored), number(1.0 + config.orbit_speed_percent / 100.0, colored)]
         "max_hp":
             args = [negative_number(effect.value, colored)]
         _:

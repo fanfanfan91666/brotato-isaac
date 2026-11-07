@@ -1,0 +1,34 @@
+[gd_resource type="Resource" load_steps=7 format=2]
+
+[ext_resource path="res://mods-unpacked/Local-Isaac/effects/description_item_data.gd" type="Script" id=1]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/items/blood_of_martyr/icon.png" type="Texture" id=2]
+[ext_resource path="res://items/global/effect.gd" type="Script" id=3]
+[ext_resource path="res://effects/items/stat_gains_modification_effect.gd" type="Script" id=4]
+
+[sub_resource type="Resource" id=1]
+script = ExtResource( 3 )
+key = "stat_percent_damage"
+value = 10
+effect_sign = 3
+
+[sub_resource type="Resource" id=2]
+script = ExtResource( 4 )
+key = "effect_increase_stat_gains"
+value = 10
+custom_key = "local_isaac_blood_of_martyr_damage_gain"
+effect_sign = 3
+stat_displayed = "stat_percent_damage"
+stats_modified = [ "stat_percent_damage" ]
+
+[resource]
+script = ExtResource( 1 )
+my_id = "item_local_isaac_blood_of_martyr"
+unlocked_by_default = true
+can_be_looted = false
+icon = ExtResource( 2 )
+name = "ITEM_LOCAL_ISAAC_BLOOD_OF_MARTYR"
+tier = 2
+value = 80
+effects = [ SubResource( 1 ), SubResource( 2 ) ]
+max_nb = 1
+tags = [ "stat_percent_damage" ]

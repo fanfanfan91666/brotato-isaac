@@ -1,7 +1,7 @@
 [gd_resource type="Resource" load_steps=10 format=2]
 
 [ext_resource path="res://mods-unpacked/Local-Isaac/effects/weapon_data.gd" type="Script" id=1]
-[ext_resource path="res://mods-unpacked/Local-Isaac/content/weapons/spear_of_destiny/icon.png" type="Texture" id=2]
+[ext_resource path="res://mods-unpacked/Local-Isaac/content/weapons/spear_of_destiny/icon_display.tres" type="Texture" id=2]
 [ext_resource path="res://mods-unpacked/Local-Isaac/content/weapons/spear_of_destiny/weapon.tscn" type="PackedScene" id=3]
 [ext_resource path="res://mods-unpacked/Local-Isaac/content/weapons/spear_of_destiny/stats.tres" type="Resource" id=4]
 [ext_resource path="res://items/sets/medieval/medieval_set_data.tres" type="Resource" id=5]
@@ -32,5 +32,4 @@ type = 0
 sets = [ ExtResource( 5 ), ExtResource( 6 ) ]
 scene = ExtResource( 3 )
 stats = ExtResource( 4 )
-add_to_chars_as_starting = [ ]
 upgrades_into = ExtResource( 8 )

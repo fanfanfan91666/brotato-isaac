@@ -2,6 +2,7 @@ extends Node
 
 const NODE_NAME = "IsaacFear"
 const EFFECT_KEY = "effect_local_isaac_weapon_fear"
+const DARK_MATTER_CACHE = "isaac_dark_matter_config_0412"
 const DURATION = 2.0
 const TINT = Color(0.54, 0.25, 0.72, 0.65)
 
@@ -15,11 +16,48 @@ var tinted_material: ShaderMaterial = null
 static func roll(weapon: Node, utility: Dictionary) -> void:
     # Shooting behaviors call this once before producing the entire volley or
     # melee swing. Other item/weapon procs keep their own independent rolls.
+    var weapon_fear = false
+    var has_fear = false
     for effect in weapon.effects:
         if effect.key == EFFECT_KEY:
-            utility["fear"] = Utils.get_chance_success(clamp(float(effect.value) / 100.0, 0.0, 1.0))
-            utility["fear_duration"] = DURATION
-            return
+            has_fear = true
+            weapon_fear = Utils.get_chance_success(clamp(float(effect.value) / 100.0, 0.0, 1.0))
+            break
+    var dark_fear = false
+    var p = weapon.player_index
+    if weapon._parent is Player and p >= 0 and p < RunData.get_player_count() and RunData.get_nb_item(Keys.generate_hash("item_local_isaac_dark_matter"), p) > 0:
+        var values = dark_matter_config(p)
+        if not values.empty():
+            has_fear = true
+            var chance = float(values.base_chance) + Utils.get_stat(Keys.stat_luck_hash, p) * float(values.luck_chance)
+            dark_fear = Utils.get_chance_success(clamp(chance, 0.0, float(values.cap)))
+    if has_fear:
+        # Roll both sources independently, then share the result across this
+        # attack's projectiles. A failed Dark Matter roll never erases a proc.
+        utility["fear"] = bool(utility.get("fear", false)) or weapon_fear or dark_fear
+        utility["fear_duration"] = DURATION
+
+static func dark_matter_config(p: int) -> Dictionary:
+    var scene = Utils.get_scene_node()
+    if not scene is Main:
+        return {}
+    # Main is a battle-only owner. The cache contains numeric parameters only,
+    # expires with this wave's scene, and holds no players or item resources.
+    if not scene.has_meta(DARK_MATTER_CACHE):
+        scene.set_meta(DARK_MATTER_CACHE, {})
+    var cache = scene.get_meta(DARK_MATTER_CACHE)
+    if cache.has(p):
+        return cache[p]
+    var result = {}
+    var rules = load("res://mods-unpacked/Local-Isaac/curse_rules.gd")
+    # Dark Matter is unique. Read its sampled curse coefficient once on this
+    # player's first owned attack; later attacks read only the current Luck.
+    for item in RunData.get_player_items(p):
+        if item.my_id == "item_local_isaac_dark_matter":
+            result = rules.params("dark_matter", rules.item_factor(item))
+            break
+    cache[p] = result
+    return result
 
 static func apply(enemy: Node, duration: float = DURATION) -> Node:
     if not is_instance_valid(enemy) or enemy.get("enemy_id") == null or enemy.dead or enemy._pending_die or enemy.sleeping or enemy.cleaning_up or duration <= 0.0 or not RunData.wave_in_progress:
@@ -33,7 +71,8 @@ static func apply(enemy: Node, duration: float = DURATION) -> Node:
         status.remaining = duration
         enemy.add_child(status)
     else:
-        status.remaining = max(status.remaining, duration)
+        # Reapplying fear refreshes its fixed duration; it never accumulates.
+        status.remaining = duration
     enemy.isaac_fear_status = status
     enemy.knockback_vector = Vector2.ZERO
     enemy.linear_velocity = Vector2.ZERO
